@@ -62,7 +62,7 @@ export default {
         pageNo: 1,
         sort: "",
         pageSize: 4,
-      }
+      },
     };
   },
   mounted() {},
