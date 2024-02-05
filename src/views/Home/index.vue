@@ -5,12 +5,20 @@
         <div class="leftTop">
           <LeftTop></LeftTop>
         </div>
-        <div class="leftBottom"></div>
+        <div class="leftBottom">
+          <LeftBottom></LeftBottom>
+        </div>
       </div>
       <div class="middle">
-        <div class="middleTop"></div>
-        <div class="middleCenter"></div>
-        <div class="middleBottom"></div>
+        <div class="middleTop">
+          <MiddleTop></MiddleTop>
+        </div>
+        <div class="middleCenter">
+          <MiddleCenter></MiddleCenter>
+        </div>
+        <div class="middleBottom">
+          <MiddleBottom></MiddleBottom>
+        </div>
       </div>
       <div class="right">
         <div class="rightTop"></div>
@@ -21,11 +29,19 @@
 </template>
 
 <script>
-import LeftTop from './Components/LeftTop.vue'
+import LeftTop from '@/views/Home/Components/LeftTop.vue'
+import LeftBottom from '@/views/Home/Components/LeftBottom.vue'
+import MiddleCenter from '@/views/Home/Components/MiddleCenter.vue'
+import MiddleTop from '@/views/Home/Components/MiddleTop.vue'
+import MiddleBottom from '@/views/Home/Components/MiddleBottom.vue'
 export default {
   name: "Layout",
   components: {
-    LeftTop
+    LeftTop,
+    LeftBottom,
+    MiddleCenter,
+    MiddleTop,
+    MiddleBottom
 }
 }
 </script>
@@ -34,7 +50,7 @@ export default {
 .all{
   .wrapper{
     margin-top: 0.8%;
-  background-color: lavender;
+  // background-color: lavender;
     height: 570px;
     display: flex;
     .left{
@@ -55,13 +71,13 @@ export default {
         width: 100%;
         // height: 35%;
         flex:1;
-        background-color: goldenrod;
+        // background-color: goldenrod;
       }
     }
     .middle{
       width: 60%;
       height: 100%;
-      background-color: palegreen;
+      // background-color: palegreen;
       margin-left: 1%;
       margin-right: 1%;
       display: flex;
@@ -69,19 +85,19 @@ export default {
       .middleTop{
         width: 100%;
         height: 6%;
-        background-color: coral;
+        // background-color: coral;
       }
       .middleCenter{
         width: 100%;
-        height: 65%;
+        height: 64%;
         margin-top: 1%;
-        margin-bottom: 1%;
-        background-color: thistle;
+        // margin-bottom: 1%;
+        // background-color: thistle;
       }
       .middleBottom{
         width: 100%;
         flex:1;
-        background-color: indianred;
+        // background-color: indianred;
       }
     }
     .right{

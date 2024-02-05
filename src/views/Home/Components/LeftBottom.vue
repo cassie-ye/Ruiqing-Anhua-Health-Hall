@@ -66,13 +66,13 @@ export default {
 
 <style lang="less" scoped>
 .countdown {
-  height: 215px;
-  margin-top: 8px;
+  height: 225px;
   display: flex;
   // justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: #e1251b;
+  background-color: #4AB344;
+  border-radius: 10px;
   .ruiqing {
     font-size: 30px;
     font-weight: bold;

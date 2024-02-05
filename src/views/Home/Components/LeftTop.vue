@@ -42,7 +42,6 @@ ul {
     a {
       display: inline-block;
       font-size: 16px;
-      color: #fff;
       color: #2f9f29;
       font-weight: bold;
     }
