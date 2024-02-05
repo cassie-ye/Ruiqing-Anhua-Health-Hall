@@ -30,7 +30,7 @@ export default {
   display: flex;
   .channel {
     position: relative;
-    background-color: #fff;
+    // background-color: #fff;
     width: 33%;
     height: 165px;
     span {
@@ -42,6 +42,8 @@ export default {
       font-size: 23px;
     }
     img {
+        border-radius: 10px;
+
       width: 100%;
       height: 100%;
     }

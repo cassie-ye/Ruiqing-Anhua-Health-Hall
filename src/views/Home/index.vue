@@ -21,7 +21,9 @@
         </div>
       </div>
       <div class="right">
-        <div class="rightTop"></div>
+        <div class="rightTop">
+          <RightTop></RightTop>
+        </div>
         <div class="rightBottom"></div>
       </div>
     </div>
@@ -34,6 +36,7 @@ import LeftBottom from '@/views/Home/Components/LeftBottom.vue'
 import MiddleCenter from '@/views/Home/Components/MiddleCenter.vue'
 import MiddleTop from '@/views/Home/Components/MiddleTop.vue'
 import MiddleBottom from '@/views/Home/Components/MiddleBottom.vue'
+import RightTop from '@/views/Home/Components/RightTop.vue'
 export default {
   name: "Layout",
   components: {
@@ -41,7 +44,8 @@ export default {
     LeftBottom,
     MiddleCenter,
     MiddleTop,
-    MiddleBottom
+    MiddleBottom,
+    RightTop
 }
 }
 </script>
@@ -50,7 +54,7 @@ export default {
 .all{
   .wrapper{
     margin-top: 0.8%;
-  // background-color: lavender;
+  // background-color: lavender;   
     height: 570px;
     display: flex;
     .left{
@@ -103,14 +107,14 @@ export default {
     .right{
       width: 19%;
       height: 100%;
-      background-color: paleturquoise;
+      // background-color: paleturquoise;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       .rightTop{
         width: 100%;
         height: 43%;
-        background-color: tan;
+        // background-color: tan;
       }
       .rightBottom{
         width: 100%;
