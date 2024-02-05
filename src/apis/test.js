@@ -6,8 +6,3 @@ export const getNewsListAPI = () => {
   });
 };
 
-// export function getNewsListAPI() {
-//   return request({
-//     url: "/api/news/getNewsList",
-//   });
-// }
