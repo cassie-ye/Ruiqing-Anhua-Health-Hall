@@ -11,7 +11,7 @@ export default {
     async getNewsList() {
       const { data: res } = await getNewsListAPI();
       // console.log('===========新闻==========')
-      console.log(res);
+      // console.log(res);
       // this.newsList = res
       // for (const item of this.newsList) {
       //   const date = new Date(item.newsDate)

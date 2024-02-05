@@ -27,6 +27,11 @@ import MyOrder from "@/views/MyOrder";
 import Login from "@/views/Login";
 import Register from "@/views/Register";
 
+/* 
+  商品详情
+*/
+import GoodsDetail from "@/views/GoodsDetail";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -76,6 +81,10 @@ const routes = [
   {
     path: "/register",
     component: Register,
+  },
+  {
+    path: "/goodsdetail",
+    component: GoodsDetail,
   },
 ];
 
