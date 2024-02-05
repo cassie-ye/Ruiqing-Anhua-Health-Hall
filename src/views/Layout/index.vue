@@ -3,7 +3,6 @@
     <HeaderBlack></HeaderBlack>
     <HeaderSearch></HeaderSearch>
     <HeaderCate></HeaderCate>
-    <p>layout</p>
     <RouterView></RouterView>
   </div>
 </template>
