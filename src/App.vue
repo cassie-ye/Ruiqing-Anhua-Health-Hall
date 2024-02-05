@@ -1,16 +1,17 @@
 <template>
   <div id="app">
+    <!-- 一级路由出口 -->
     <RouterView></RouterView>
   </div>
 </template>
 <script>
-import {getNewsListAPI} from '@/apis/test'
+import { getNewsListAPI } from "@/apis/test";
 export default {
   methods: {
     async getNewsList() {
-      const { data: res } = await getNewsListAPI()
+      const { data: res } = await getNewsListAPI();
       // console.log('===========新闻==========')
-      console.log(res)
+      console.log(res);
       // this.newsList = res
       // for (const item of this.newsList) {
       //   const date = new Date(item.newsDate)
@@ -23,9 +24,9 @@ export default {
       // console.log(this.newsList)
     },
   },
-  created(){
-    this.getNewsList()
-  }
-}
+  created() {
+    this.getNewsList();
+  },
+};
 </script>
 <style lang="less"></style>

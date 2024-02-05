@@ -1,17 +1,31 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 /* 
-    Layout
+  Layout
 */
-import Layout from '@/views/Layout'
+import Layout from "@/views/Layout";
+
 /* 
-    首页 所有商品 男生专场 女生专场 儿童专场
+  首页 所有商品 男生专场 女生专场 儿童专场
 */
 import Home from "@/views/Home";
 import AllGoods from "@/views/AllGoods";
 import ManChannel from "@/views/ManChannel";
 import WomanChannel from "@/views/WomanChannel";
 import ChildrenChannel from "@/views/ChildrenChannel";
+
+/* 
+  我的购物车 我的资料 我的订单
+*/
+import MyCart from "@/views/MyCart";
+import MyInfo from "@/views/MyInfo";
+import MyOrder from "@/views/MyOrder";
+
+/* 
+  登录 注册
+*/
+import Login from "@/views/Login";
+import Register from "@/views/Register";
 
 Vue.use(VueRouter);
 
@@ -42,6 +56,26 @@ const routes = [
         component: ChildrenChannel,
       },
     ],
+  },
+  {
+    path: "/myCart",
+    component: MyCart,
+  },
+  {
+    path: "/myOrder",
+    component: MyOrder,
+  },
+  {
+    path: "/myInfo",
+    component: MyInfo,
+  },
+  {
+    path: "/login",
+    component: Login,
+  },
+  {
+    path: "/register",
+    component: Register,
   },
 ];
 
