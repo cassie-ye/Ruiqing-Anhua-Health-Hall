@@ -91,7 +91,7 @@ function Axios(axiosConfig, customOptions, loadingOptions) {
             // 如果启用了 code_message_show 功能，并且响应数据存在且 code 不等于 200，则显示错误消息并拒绝 Promise 对象。 
             // 后端定义
             if (custom_options.code_message_show && response.data && response.data.code !== 'H0000') {
-                this.$message({
+                Message({
                     type: 'error',
                     // 自己看
                     message: response.message

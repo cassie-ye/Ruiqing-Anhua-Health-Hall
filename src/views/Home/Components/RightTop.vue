@@ -38,15 +38,15 @@
         </div>
       </div>
     </div>
-    <div class="zhanghao">Hi~&nbsp;&nbsp;&nbsp;{{ userInfo.username }}</div>
+    <div class="zhanghao">Hi~&nbsp;&nbsp;&nbsp;{{ 账号 }}</div>
     <div class="else">
       <div class="else_top">
         <router-link to="/cart">
-          <span class="num">{{ cartList.length }}</span>
+          <span class="num">{{ 5 }}</span>
           <span>购物车</span>
         </router-link>
         <router-link to="/myOrder">
-          <span class="num">{{ orderList.length }}</span>
+          <span class="num">{{ 5 }}</span>
           <span>待收货</span>
         </router-link>
         <router-link to="/myOrder">
@@ -54,7 +54,7 @@
           <span>待发货</span>
         </router-link>
         <router-link to="/myOrder">
-          <span class="num">{{ orderList.length }}</span>
+          <span class="num">{{ 5}}</span>
           <span>待评价</span>
         </router-link>
       </div>
@@ -89,7 +89,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            isLogin:false,
+            circleUrl:''
+        };
+    },
+};
 </script>
 
 <style lang="less" scoped>

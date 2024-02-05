@@ -10,3 +10,13 @@ export const getGoodsListAPI = (data) => {
     data,
   });
 };
+
+/* 
+    根据父级分类获取商品列表
+*/
+export const getGoodsByParentType = (parentType) => {
+  return request({
+    url: `api/goods/getGoodsByParentType?parentType=${parentType}`,
+    method: "GET"
+  });
+};
