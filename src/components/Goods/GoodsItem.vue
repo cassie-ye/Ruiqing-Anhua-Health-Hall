@@ -43,9 +43,11 @@ export default {
       required: true
     },
     color: {
-      default: '',
+      default(){
+        return '#076CE0'
+      },
       // type: String,
-      required: true
+      required: false
     }
   },
   methods: {

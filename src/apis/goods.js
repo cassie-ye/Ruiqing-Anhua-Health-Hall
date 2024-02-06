@@ -20,3 +20,12 @@ export const getGoodsByParentType = (parentType) => {
     method: "GET"
   });
 };
+
+/* 
+    根据id获取商品详情
+*/
+export const getGoodsByIdAPI = (id) => {
+  return request.get(`api/goods/getGoodsById?id=${id}`, {
+    id
+  })
+}
