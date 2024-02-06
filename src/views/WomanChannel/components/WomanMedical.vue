@@ -1,20 +1,26 @@
 <template>
   <div class="wrapper">
+    <!-- 顶部title -->
     <div class="top1">
       <p>女科用药</p>
     </div>
+    <!-- 内容 -->
     <div class="content">
+      <!-- 左侧 -->
       <div class="left cursor">
+        <!-- 上方图片 -->
         <div class="top2">
           <img
             src="https://17118605.s61i.faimallusr.com/2/AD0IjeuUCBACGAAg_Yv92QUo0KS-FDDmATjKAg.jpg.webp"
             alt=""
           />
+          <!-- 字体定位到图片上 -->
           <div class="text">
             <p class="title">逆转时光 冻龄之美</p>
             <p class="desc">健康滋补好气色</p>
           </div>
         </div>
+        <!-- 下方选项 遍历数组+点击跳转-->
         <div class="bottom1">
           <div
             class="bottom-item"
@@ -27,24 +33,29 @@
           </div>
         </div>
       </div>
+      <!-- 右侧 -->
       <div class="right">
+        <!-- 商品组件 -->
         <div class="top3">
           <GoodsItem
             @gotoDetail="handleNavigation"
             class="t cursor"
             :goods="goodsList[0]"
           ></GoodsItem>
+          <!-- 中间图片 只为你更美一点 -->
           <div class="pic">
             <img
               src="https://17118605.s61i.faimallusr.com/4/AD0IjeuUCBAEGAAg-6r82QUo3u3NyAcwxgM4qgI!450x450.png.webp"
               alt=""
             />
+            <!-- 字体定位到图片上 -->
             <div class="text">
               <p class="title">只为你更美一点</p>
               <p class="C">胶原与维C融合</p>
               <div class="button">了解更多</div>
             </div>
           </div>
+          <!-- 引用商品组件 组件传参 -->
           <GoodsItem
             @gotoDetail="handleNavigation"
             class="t cursor"
@@ -52,6 +63,7 @@
           ></GoodsItem>
         </div>
         <div class="bottom2">
+          <!-- 引用商品组件 组件传参 -->
           <GoodsItem
             @gotoDetail="handleNavigation"
             class="item cursor"
@@ -66,20 +78,17 @@
 </template>
 
 <script>
-import { getGoodsByParentType } from '@/api/GoodsAPI'
-import GoodsItem from '../components/GoodsItem.vue'
+import { getGoodsByParentType } from '@/apis/goods'
 export default {
-  components: {
-    GoodsItem
-  },
   data () {
     return {
       goodsList: [],
+      // 女生专场用药功效分类
       womenEffectList: [
         {
           id: '1',
           effect: '调经促孕',
-          linkUrl: '/goodsDetail'
+          linkUrl: '/goods'
         },
         {
           id: '2',
@@ -89,12 +98,12 @@ export default {
         {
           id: '3',
           effect: '美体塑形',
-          linkUrl: '/goodsDetail'
+          linkUrl: '/goods'
         },
         {
           id: '4',
           effect: '美容美颜',
-          linkUrl: '/goodsDetail'
+          linkUrl: '/goods'
         },
         {
           id: '5',
@@ -117,22 +126,18 @@ export default {
           linkUrl: '/goods'
         }
       ],
-      parentType: '女科频道'
+      parentType: '女生保健'
     }
   },
   methods: {
+    // 根据商品父级分类查询商品
     async getGoodsByParentTypeM (type) {
       const { data: res } = await getGoodsByParentType(type)
-      console.log('---------女科用药----------')
-      console.log(res)
       this.goodsList = res
     },
     handleNavigation (id) {
       // 处理接收到的参数
-      // 在这里可以进行相应的处理，如更新父组件的数据等
       this.$router.push({ path: 'goodsDetail', query: { goods_id: id } })
-      // console.log(id)
-      // this.$router.push('cart')
     }
   },
   created () {

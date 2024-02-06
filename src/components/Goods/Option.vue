@@ -61,21 +61,15 @@ export default {
       // 将activeIndex赋值为鼠标移入的父级分类的索引
       this.activeIndex = index;
       this.parentType = this.title_list[index].title;
-      // console.log(this.parentType);
       this.getGoodsByParentTypeM(this.parentType);
     },
     async getGoodsByParentTypeM() {
       const { data: res } = await getGoodsByParentType(this.parentType);
-      // 数组里面包对象
-      // console.log('==========option axios=============')
-      // console.log(res)
-      this.option_list = res;
+      this.option_list = res.slice(0, 4);
     },
     handleNavigation(id) {
       // 处理接收到的参数
       this.$router.push({ path: "goodsDetail", query: { goods_id: id } });
-      // console.log('option' + id)
-      // this.$router.push('cart')
     },
   },
   watch: {},

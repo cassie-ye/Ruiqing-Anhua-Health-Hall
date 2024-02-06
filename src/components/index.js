@@ -8,6 +8,10 @@ import GoodsItemAddBuy from "@/components/Goods/GoodsItemAddBuy";
 import Bottom from "@/components/Nav/Bottom.vue";
 // 返回顶部按钮
 import BackTop from "@/components/Utils/BackTop.vue";
+// 商品展示(男生+女生)
+import GoodsItem from '@/components/Goods/GoodsItem'
+// 优惠券
+import Coupon from "@/components/Utils/Coupon.vue";
 
 export const componentPlugin = {
   install(Vue) {
@@ -16,5 +20,7 @@ export const componentPlugin = {
     Vue.component("GoodsItemAddBuy", GoodsItemAddBuy);
     Vue.component("Bottom", Bottom);
     Vue.component("BackTop", BackTop);
+    Vue.component("GoodsItem", GoodsItem)
+    Vue.component("Coupon", Coupon)
   },
 };
