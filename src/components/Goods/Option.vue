@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="wrapper">
+      <!-- 标题：特价产品 热销排行 当季 
+           
+      -->
       <div class="title">
+        <!-- 鼠标移入触发showBody方法 重新发请求渲染数据 -->
         <div
           :class="[
             activeIndex == index ? 'title_item_active' : '',
@@ -16,12 +20,14 @@
         <div class="solid1"></div>
         <div class="solid2"></div>
       </div>
+      <!-- body区域 -->
       <div class="body">
         <div
           class="body_item"
           v-for="(item2, index2) in option_list"
           :key="index2"
         >
+        <!-- v-for 四个商品渲染 点击跳转到商品详情-->
           <GoodsItemAddBuy
             @gotoDetail="handleNavigation"
             :goods="item2"
@@ -33,25 +39,29 @@
 </template>
 
 <script>
+// 根据父级分类获取商品列表
 import { getGoodsByParentType } from "@/apis/goods";
 export default {
   data() {
     return {
+      // 标题数组
       title_list: [
         { id: 0, title: "特价产品", child: "特价产品" },
         { id: 1, title: "热销排行", child: "热销排行" },
         { id: 2, title: "当季", child: "当季" },
       ],
       option_list: [],
+      // 当前选中的父级分类的索引
       activeIndex: 0,
       parentType: "特价产品",
     };
   },
   methods: {
     showBody(index) {
+      // 将activeIndex赋值为鼠标移入的父级分类的索引
       this.activeIndex = index;
       this.parentType = this.title_list[index].title;
-      console.log(this.parentType);
+      // console.log(this.parentType);
       this.getGoodsByParentTypeM(this.parentType);
     },
     async getGoodsByParentTypeM() {
@@ -63,7 +73,6 @@ export default {
     },
     handleNavigation(id) {
       // 处理接收到的参数
-      // 在这里可以进行相应的处理，如更新父组件的数据等
       this.$router.push({ path: "goodsDetail", query: { goods_id: id } });
       // console.log('option' + id)
       // this.$router.push('cart')
@@ -108,6 +117,7 @@ export default {
         font-weight: bold;
       }
     }
+    // 父级分类的下划线
     .title_item_active {
       border-bottom: 1.5px solid #4ab344;
       color: #4ab344;

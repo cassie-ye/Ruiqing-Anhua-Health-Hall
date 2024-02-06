@@ -4,6 +4,7 @@
     <HeaderSearch></HeaderSearch>
     <HeaderCate></HeaderCate>
     <RouterView></RouterView>
+    <Bottom></Bottom>
   </div>
 </template>
 

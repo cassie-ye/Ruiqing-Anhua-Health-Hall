@@ -33,16 +33,16 @@ export default {
   props: {
     goods: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
-    navigateToRoute (id) {
+    navigateToRoute(id) {
       // console.log(id)
-      this.$emit('gotoDetail', id)
-    }
-  }
-}
+      this.$emit("gotoDetail", id);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -50,9 +50,9 @@ export default {
 //   // background-color: #67C23A
 //   border: 1px solid #4ab344;
 // }
-.all:hover{
-      transform: translate3d(0, -3px, 0);
-    box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+.all:hover {
+  transform: translate3d(0, -3px, 0);
+  box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
 }
 .all {
   width: 100%;
@@ -120,6 +120,7 @@ export default {
         span {
           font-size: 20px;
         }
+        font-weight: bold;
       }
       .ago {
         font-size: 12px;
@@ -140,27 +141,31 @@ export default {
       .btn {
         width: 75%;
         height: 60%;
-        border: 2px solid #5cbc57;
+        // border: 2px solid #5cbc57;
 
-        background-color: #f0f9eb;
-        color: #4ab344;
+        // background-color: #f0f9eb;
+        // color: #4ab344;
+        background-color: #4ab344;
+        border: 1px solid #4ab344;
+        color: #fff;
+        font-size: 20px;
+        font-weight: bolder;
       }
     }
   }
 }
-.all:hover .bottom .buyNow .btn {
-  background-color: #4ab344;
-  border: 1px solid #4ab344;
-  color: #fff;
-  font-size: 20px;
-  font-weight: bolder;
-}
-.all:hover .bottom .price .now{
-  font-weight: bolder;
-  font-size: 26px;
-  span{
-  font-size: 26px;
-
-  }
-}
+// .all:hover .bottom .buyNow .btn {
+//   background-color: #4ab344;
+//   border: 1px solid #4ab344;
+//   color: #fff;
+//   font-size: 20px;
+//   font-weight: bolder;
+// }
+// .all:hover .bottom .price .now {
+//   font-weight: bolder;
+//   font-size: 26px;
+//   span {
+//     font-size: 26px;
+//   }
+// }
 </style>
