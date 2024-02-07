@@ -6,7 +6,8 @@
       <input
         type="text"
         class="username cursor"
-        placeholder="账号名/邮箱/手机号"
+        placeholder="用户名/手机号"
+        v-model.trim="username"
       />
     </div>
     <!-- 密码 -->
@@ -16,11 +17,12 @@
         type="password"
         class="username cursor"
         placeholder="请输入登录密码"
+        v-model.trim="password"
       />
     </div>
     <!-- 登录按钮 -->
     <div class="denglu">
-      <button class="btn_login cursor">登录</button>
+      <button class="btn_login cursor" @click="loginMethod1">登录</button>
     </div>
     <!-- 其他登陆方式 微博登录 支付宝登陆 -->
     <div class="elseMethods">
@@ -44,7 +46,44 @@
 </template>
 
 <script>
-export default {};
+import { useLogin } from "@/views/Login/mixins/useLogin";
+export default {
+  mixins: [useLogin],
+  data() {
+    return {
+      // 输入框输入的用户名
+      username: "",
+      // 输入框输入的密码
+      password: "",
+      // 发起登录请求时传过去的对象
+      loginObj: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    loginMethod1() {
+      // 如果其中一个输入框为空，那么提示用户
+      if (this.username === "" || this.password === "") {
+        this.$message({
+          type: "error",
+          message: "用户名(手机号)或密码不能为空",
+        });
+      } else {
+        // 给发起登录请求时传过去的对象赋值
+        this.loginObj.username = this.username;
+        this.loginObj.password = this.password;
+        // 清空输入框
+        this.username = "";
+        this.password = "";
+        // 发起请求
+        this.login(this.loginObj);
+      }
+    },
+  },
+  created() {},
+};
 </script>
 
 <style lang="less" scoped>
