@@ -2,7 +2,7 @@
   <!-- 登录页面头部Header -->
   <div class="header">
     <div class="name">
-      <div class="chinese">瑞清安华养生堂</div>
+      <div class="chinese" @click="gotoHome">瑞清安华养生堂</div>
       <div class="English">Ruiqing Anhua Wellness Hall</div>
     </div>
     <div class="advice">
@@ -16,7 +16,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+    // 点击logo跳转至首页
+    gotoHome(){
+      this.$router.push('/')
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>
