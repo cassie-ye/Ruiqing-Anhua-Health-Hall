@@ -90,6 +90,10 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+  // 在不同路由切换的时候，可以自动滚动到页面的顶部，而不是停留在原先的位置
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  }
 });
 
 export default router;
