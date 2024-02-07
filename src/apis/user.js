@@ -1,6 +1,6 @@
 import request from "@/utils/http";
 /* 
-    获取商品列表
+    登录
     POST方法 data传参
 */
 export const loginAPI = (data) => {
@@ -10,3 +10,10 @@ export const loginAPI = (data) => {
     data,
   });
 };
+
+/* 
+    获取短信验证码
+*/
+export const getMsgCodeAPI = () => {
+  return request.get('api/verifyCode/getMsgCode')
+}

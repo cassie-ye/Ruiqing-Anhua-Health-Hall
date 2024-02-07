@@ -3,22 +3,30 @@
     <!-- 手机号 -->
     <div class="zhanghao">
       <span class="iconfont icon-shouji"></span>
-      <input type="text" class="username cursor" placeholder="请输入手机号" />
+      <input
+        type="text"
+        class="username cursor"
+        placeholder="请输入手机号"
+        v-model="phoneNumber"
+      />
     </div>
     <!-- 验证码 -->
     <div class="mima">
       <span class="iconfont icon-shuzijianpan"></span>
-      <input type="password" class="code cursor" placeholder="请输入验证码" />
+      <input
+        type="password"
+        class="code cursor"
+        placeholder="请输入验证码"
+        v-model="phoneMsg"
+      />
       <!-- 获取验证码按钮 -->
-      <button class="btn_code cursor">
-        <!-- {{
-                second === totalSecond ? "获取验证码" : second + `秒后重新发送`
-              }} -->
+      <button class="btn_code cursor" @click="getMsgCode">
+        {{ second === totalSecond ? "获取验证码" : second + `秒后重新发送` }}
       </button>
     </div>
     <!-- 登录按钮 -->
     <div class="denglu">
-      <button class="btn_login cursor">登录</button>
+      <button class="btn_login cursor" @click="loginMethod2">登录</button>
     </div>
     <!-- 其他登陆方式 微博登录 支付宝登陆 -->
     <div class="elseMethods">
@@ -41,7 +49,88 @@
 </template>
 
 <script>
-export default {};
+import { useLogin } from "@/views/Login/mixins/useLogin";
+import { getMsgCodeAPI } from "@/apis/user";
+export default {
+  mixins: [useLogin],
+  data() {
+    return {
+      // 输入框输入的手机号
+      phoneNumber: "",
+      // 输入框输入的验证码
+      phoneMsg: "",
+      // 短信倒计时秒数的最大值
+      totalSecond: 60,
+      // 短信倒计时的秒数
+      second: 60,
+      // 短信倒计时定时器的id
+      timer: null,
+      // 发起登录请求时传过去的对象
+      loginObj: {
+        username: "",
+        msgCode: "",
+      },
+    };
+  },
+  methods: {
+    // 校验手机号
+    checkPhone() {
+      // 正则表达式
+      const reg = /^1[3456789]\d{9}$/;
+      if (!reg.test(this.phoneNumber)) {
+        this.$message.error("手机号码格式不正确");
+        return false;
+      }
+      return true;
+    },
+    // 获取短信验证码
+    async getMsgCode() {
+      if (this.checkPhone()) {
+        // 倒计时
+        if (!this.timer && this.second === this.totalSecond) {
+          // 开启倒计时
+          this.timer = setInterval(() => {
+            // 短信倒计时秒数 减1
+            this.second--;
+            // 当秒数小于1时，清除计时器，将秒数设置为初始值(最大值)60
+            if (this.second < 1) {
+              clearInterval(this.timer);
+              this.timer = null;
+              this.second = this.totalSecond;
+            }
+          }, 1000);
+          // 发请求获取验证码
+          const { data: res } = await getMsgCodeAPI();
+          // message提示用户短信内容
+          this.$message.success("短信发送成功     " + res);
+        }
+      }
+    },
+    // 手机号+短信验证码登录方式
+    loginMethod2() {
+      // 如果其中一个输入框为空，那么提示用户
+      if (this.phoneNumber === "" || this.phoneMsg === "") {
+        this.$message({
+          type: "error",
+          message: "手机号或验证码不能为空",
+        });
+      } else {
+        // 给发起登录请求时传过去的对象赋值
+        this.loginObj.username = this.phoneNumber;
+        this.loginObj.msgCode = this.phoneMsg;
+        // 清空输入框
+        this.phoneNumber = "";
+        this.phoneMsg = "";
+        // 发起请求
+        this.login(this.loginObj);
+      }
+    },
+  },
+  // 销毁定时器
+  destroyed() {
+    clearInterval(this.timer);
+  },
+};
 </script>
 
 <style lang="less" scoped>
