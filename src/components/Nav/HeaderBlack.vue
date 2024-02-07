@@ -59,20 +59,29 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "HeaderBlack",
   props: {},
   data() {
-    return {
-      token: false,
-    };
+    return {};
   },
   methods: {
     // TODO 点击跳转到对应页面
     goto(name) {
-      console.log(name);
       this.$router.push(`/${name}`);
     },
+  },
+  computed: {
+    /* 
+      获取vuex中存储的user信息和token信息
+      token用来判断用户是否登录以及v-if和v-else切换导航栏内容
+      userInfo用来获取用户信息，在token存在情况下的导航栏展示用户名和头像
+    */
+    ...mapState("user", ["userInfo", "token"]),
+  },
+  created() {
+    // console.log(this.token);
   },
 };
 </script>
