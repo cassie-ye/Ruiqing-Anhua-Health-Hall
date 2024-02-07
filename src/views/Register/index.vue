@@ -39,6 +39,7 @@
 import RegisterNav from "@/views/Register/components/RegisterNav.vue";
 import Step1 from "@/views/Register/components/Step1.vue";
 import Step2 from "@/views/Register/components/Step2.vue";
+import { registerAPI } from "@/apis/user";
 export default {
   components: {
     RegisterNav: RegisterNav,
@@ -48,13 +49,15 @@ export default {
   data() {
     return {
       // 步骤条当前所在的步骤索引
-      active: 1,
+      active: 0,
       // 注册接口所需对象
       registerObj: {
         username: "",
         password: "",
         phone: "",
       },
+      // 注册成功的user对象，需要传给步骤三子组件
+      successfullObj: {},
     };
   },
   methods: {
@@ -70,13 +73,30 @@ export default {
         this.registerObj.phone = content.phoneNumber;
       }
     },
+    // 封装一下registerAPI注册方法
+    async register(registerObj) {
+      const res = await registerAPI(registerObj);
+      // console.log(res);
+      // 用户注册成功
+      if (res.code === "H0000") {
+        // 将注册成功的对象信息赋值给需要传递给步骤三组件的对象
+        this.successfullObj = this.registerObj;
+        this.$message.success("恭喜你，注册成功！");
+        // 调用方法跳转到步骤三————注册成功
+        this.gotoSteps(2);
+        // 用户名或手机号已存在，注册失败
+      } else if (res.code === "-1") {
+        this.$message.error(res.message);
+        this.gotoSteps(0);
+      }
+    },
+    // 从子组件step2提交过来的registeNow方法
     registeNow(steps2Obj) {
       // 接收子组件传过来的参数对象steps2Obj，并赋值注册对象的username属性和password属性
       this.registerObj.username = steps2Obj.username;
       this.registerObj.password = steps2Obj.password;
       // TODO：在这里调用注册接口
-      // 调用方法跳转到步骤三————注册成功
-      // this.gotoSteps(steps2Obj.index);
+      this.register(this.registerObj);
     },
   },
 };

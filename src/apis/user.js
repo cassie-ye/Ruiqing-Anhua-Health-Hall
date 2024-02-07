@@ -15,5 +15,16 @@ export const loginAPI = (data) => {
     获取短信验证码
 */
 export const getMsgCodeAPI = () => {
-  return request.get('api/verifyCode/getMsgCode')
-}
+  return request.get("api/verifyCode/getMsgCode");
+};
+
+/* 
+    注册
+*/
+export const registerAPI = (data) => {
+  return request({
+    url: "/auth/user/register",
+    method: "POST",
+    data,
+  });
+};
