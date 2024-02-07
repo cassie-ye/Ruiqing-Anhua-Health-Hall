@@ -1,44 +1,58 @@
 <template>
-  <div class="top" v-if="!isLogin">
+  <!-- 当token不存在（用户未登录）时显示的导航栏内容 -->
+  <div class="top" v-if="!token">
+    <!-- 头像 -->
     <div class="avator">
       <div class="demo-basic--circle">
         <div class="block">
+          <!-- 头像的url -->
           <el-avatar :size="70" :src="circleUrl"></el-avatar>
         </div>
       </div>
     </div>
+    <!-- Hi~欢迎逛瑞清安华！ -->
     <div class="zhanghao">Hi~欢迎逛瑞清安华！</div>
+    <!-- 开通Plus会员 -->
     <div class="else">
       <div class="plus cursor">
+        <!-- 左边部分 Plus会员和最高3%返利 -->
         <div class="plus_left">
           <div class="huiyuan">Plus会员</div>
           <div class="fanli">最高3%返利</div>
         </div>
+        <!-- 右侧部分 立即开通 -->
         <div class="plus_right">
           立即开通
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>
+      <!-- 下方按钮组 -->
       <div class="lAndR">
+        <!-- 登录按钮 -->
         <router-link to="/login">
           <button class="login cursor">登 录</button
           >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </router-link>
+        <!-- 注册按钮 -->
         <router-link to="/register">
           <button class="register cursor">注 册</button>
         </router-link>
       </div>
     </div>
   </div>
+  <!-- 当token存在（用户已登录）时显示的导航栏内容 -->
   <div v-else class="top">
+    <!-- 头像 -->
     <div class="avator">
       <div class="demo-basic--circle">
         <div class="block">
-          <el-avatar :size="50" :src="userInfo.headImg"></el-avatar>
+          <!-- 头像的url -->
+          <el-avatar :size="60" :src="userInfo.headImg"></el-avatar>
         </div>
       </div>
     </div>
-    <div class="zhanghao">Hi~&nbsp;&nbsp;&nbsp;{{ 账号 }}</div>
+    <!-- Hi + 用户名 -->
+    <div class="zhanghao">Hi~&nbsp;&nbsp;&nbsp;{{ userInfo.username }}</div>
     <div class="else">
       <div class="else_top">
         <router-link to="/cart">
@@ -54,7 +68,7 @@
           <span>待发货</span>
         </router-link>
         <router-link to="/myOrder">
-          <span class="num">{{ 5}}</span>
+          <span class="num">{{ 5 }}</span>
           <span>待评价</span>
         </router-link>
       </div>
@@ -89,13 +103,22 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-    data() {
-        return {
-            isLogin:false,
-            circleUrl:''
-        };
-    },
+  data() {
+    return {
+      circleUrl: require("@/assets/avator.webp"),
+    };
+  },
+  methods: {},
+  computed: {
+    /* 
+      获取vuex中存储的user信息和token信息
+      token用来判断用户是否登录以及v-if和v-else切换导航栏内容
+      userInfo用来获取用户信息，在token存在情况下的导航栏展示用户名和头像
+    */
+    ...mapState("user", ["userInfo", "token"]),
+  },
 };
 </script>
 
@@ -117,10 +140,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 30px;
+    padding-top: 20px;
   }
   .zhanghao {
-    margin-top: 10px;
+    // margin-top: 10px;
     width: 100%;
     height: 15%;
     // background-color: #a7a7a7;
@@ -245,7 +268,7 @@ export default {
       a {
         transition: all 0.4s ease;
         width: 50%;
-        height: 100%;
+        height: 75%;
         // background-color: #fff;
         display: flex;
         flex-direction: column;
