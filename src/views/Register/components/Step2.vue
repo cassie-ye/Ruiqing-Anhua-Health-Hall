@@ -2,8 +2,10 @@
   <div class="all">
     <!-- 账号名 -->
     <div class="username">
+      <!-- 标题 账号名 -->
       <div class="left">账&nbsp;&nbsp;号&nbsp;&nbsp;名</div>
       <div class="right">
+        <!-- username输入框 -->
         <input
           @blur="validateUsername"
           v-model="username"
@@ -11,18 +13,14 @@
           placeholder="账户唯一识别，可用来登录"
           class="cursor"
         />
-        <i class="el-icon-circle-check" v-show="iUsername"></i>
       </div>
     </div>
-    <div class="p" v-if="errorUsername">
-      <i class="el-icon-warning-outline"></i>
-      <p>{{ usernameWarning }}</p>
-    </div>
-    <div class="p" v-else></div>
     <!-- 设置密码 -->
     <div class="setPassword">
+      <!-- 标题 设置密码 -->
       <div class="left">设&nbsp;置&nbsp;密&nbsp;码</div>
       <div class="right">
+        <!-- password输入框 -->
         <input
           class="cursor"
           @blur="validatePassword"
@@ -30,20 +28,16 @@
           type="password"
           name=""
           id=""
-          placeholder="6到12个字符，至少包含数字、小写字母、大写字母及特殊字符（包含_）"
+          placeholder="6到12个字符，至少包含数字、小写字母、大写字母及特殊字符"
         />
-        <i class="el-icon-circle-check" v-show="iPassword"></i>
       </div>
     </div>
-    <div v-if="errorPassword" class="p">
-      <i class="el-icon-warning-outline"></i>
-      <p>{{ passwordWarning }}</p>
-    </div>
-    <div class="p" v-else></div>
     <!-- 确认密码 -->
     <div class="confirmPassword">
+      <!-- 标题 确认密码 -->
       <div class="left">确&nbsp;认&nbsp;密&nbsp;码</div>
       <div class="right">
+        <!-- 再次输入密码输入框 -->
         <input
           class="cursor"
           @blur="validateSecondPassword"
@@ -51,18 +45,12 @@
           type="password"
           placeholder="请再次输入密码"
         />
-        <i class="el-icon-circle-check" v-show="iSecondPassword"></i>
       </div>
     </div>
-    <div class="p" v-if="errorSecondPassword">
-      <i class="el-icon-warning-outline"></i>
-      <p>{{ secondPasswordWarning }}</p>
-    </div>
-    <div class="p" v-else></div>
-
     <!-- 立即注册 -->
     <div class="registerNow">
-      <button @click="next" class="cursor">立即注册</button>
+      <button @click="gotoSteps(0)" class="cursor">返回上一步</button>
+      <button @click="registeNow" class="cursor">立即注册</button>
     </div>
   </div>
 </template>
@@ -71,97 +59,86 @@
 export default {
   data() {
     return {
-      // v-model绑定输入框数据
+      // 输入框输入的账号名
       username: "",
+      // 账号名是否符合规范
+      isUsernameLegal: false,
+      // 输入框输入的密码
       password: "",
+      // 密码是否符合规范
+      isPasswordLegal: false,
+      // 输入框输入的再次输入密码
       secondPassword: "",
-      errorUsername: false,
-      errorPassword: false,
-      errorSecondPassword: false,
-      usernameWarning: "",
-      passwordWarning: "",
-      secondPasswordWarning: "",
-      iUsername: false,
-      iPassword: false,
-      iSecondPassword: false,
-      UserObj: {
+      // 确认密码是否符合规范
+      isSecondPasswordLegal: false,
+      // 注册对象的username和password属性，以及下一步的索引2
+      step2Obj: {
         username: "",
         password: "",
+        index: 2
       },
     };
   },
-  // TODO:校验方法
   methods: {
+    // TODO1：账号名非空校验
     validateUsername() {
-      // console.log(11)
-      this.usernameWarning = "";
-      this.errorUsername = false;
       if (this.username === "") {
-        this.usernameWarning = "手机号输入不能为空";
-        this.errorUsername = true;
+        this.isUsernameLegal = false;
+        this.$message.error("账号名输入不能为空");
         return;
       }
-      this.iUsername = true;
-      this.UserObj.username = this.username;
+      this.isUsernameLegal = true;
     },
+    // TODO2：第一次密码正则校验
     validatePassword() {
-      this.validateUsername();
-      if (this.errorUsername) {
-        this.iPassword = false;
-        return;
-      }
-      this.passwordWarning = "";
-      this.errorPassword = false;
       if (this.password === "") {
-        this.passwordWarning = "密码输入不能为空";
-        this.errorPassword = true;
+        this.isPasswordLegal = false;
+        this.$message.error("密码输入不能为空");
         return;
       }
       const regex =
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?(_|[^\w\s])).{6,12}$/;
       if (!regex.test(this.password)) {
-        this.passwordWarning =
-          "6到12个字符，至少包含数字、小写字母、大写字母及特殊字符（包含_）";
-        this.errorPassword = true;
+        this.isPasswordLegal = false;
+        this.$message.error(
+          "密码必须是6到12个字符，至少包含数字、小写字母、大写字母及特殊字符"
+        );
         return;
       }
-      this.iPassword = true;
-      this.UserObj.password = this.password;
+      this.isPasswordLegal = true;
     },
+    // TODO3：第二次密码正则校验
     validateSecondPassword() {
-      this.validatePassword();
-      if (this.errorPassword) {
-        this.iSecondPassword = false;
-        return;
-      }
-      this.secondPasswordWarning = "";
-      this.errorSecondPassword = false;
       if (this.secondPassword === "") {
-        this.secondPasswordWarning = "密码输入不能为空";
-        this.errorSecondPassword = true;
+        this.isSecondPasswordLegal = false;
+        this.$message.error("密码输入不能为空");
         return;
       }
       if (this.secondPassword !== this.password) {
-        this.secondPasswordWarning = "与上次密码输入不一致！";
-        this.errorSecondPassword = true;
+        this.isSecondPasswordLegal = false;
+        this.$message.error("与上次密码输入不一致！");
         return;
       }
-      this.iSecondPassword = true;
+      this.isSecondPasswordLegal = true;
     },
-    next() {
-      this.validateUsername();
-      this.validatePassword();
-      this.validateSecondPassword();
+    // TODO4：点击按钮进行注册
+    registeNow() {
+      // 如果账号名、密码、确认密码都符合规范，才允许注册
       if (
-        this.errorUsername ||
-        this.errorPassword ||
-        this.errorSecondPassword
+        this.isUsernameLegal &&
+        this.isPasswordLegal &&
+        this.isSecondPasswordLegal
       ) {
-        return;
+        // 给传递给父组件的step2Obj赋值，username和password
+        this.step2Obj.username = this.username;
+        this.step2Obj.password = this.password;
+        // 向父组件传递注册对象
+        this.$emit("registeNow", this.step2Obj);
       }
-      this.$emit("getUserObj", this.UserObj);
-      // 调用父组件的next方法
-      this.$parent.next2();
+    },
+    // TODO5：点击按钮返回上一步
+    gotoSteps(index) {
+      this.$parent.gotoSteps(index)
     },
   },
 };
@@ -169,8 +146,9 @@ export default {
 
 <style lang="less" scoped>
 .all {
-  width: 100%;
-  height: 100%;
+  width: 40%;
+  height: 400px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   // justify-content: center;
@@ -185,6 +163,7 @@ export default {
     // margin-top: 30px;
     display: flex;
     border: 1px solid #e1e1e1;
+    margin-top: 25px;
     .left {
       width: 26%;
       height: 100%;
@@ -209,7 +188,7 @@ export default {
       }
     }
     button {
-      width: 100%;
+      width: 40%;
       height: 100%;
       background-color: #4ab344;
       border: 1px solid #4ab344;
@@ -218,7 +197,10 @@ export default {
     }
   }
   .registerNow {
-    margin-top: 20px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    border: 0px solid #e1e1e1;
   }
   .p {
     width: 95%;

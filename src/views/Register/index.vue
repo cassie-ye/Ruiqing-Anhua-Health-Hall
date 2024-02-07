@@ -10,8 +10,15 @@
       </el-steps>
     </div>
     <!-- 步骤1 -->
-    <!-- <Step1 @gotoSecond="gotoSecond" v-if="this.active === 0 ? true : false"></Step1> -->
-    <Step2 v-if="this.active === 1 ? true : false"></Step2>
+    <Step1
+      @gotoSteps="gotoSteps"
+      v-if="this.active === 0 ? true : false"
+    ></Step1>
+    <Step2
+      @registeNow="registeNow"
+      v-if="this.active === 1 ? true : false"
+    ></Step2>
+    <div v-if="this.active === 2 ? true : false">steps3</div>
     <!-- <template v-if="this.active === 1 ? true : false">
         <div class="formR">
           <RegisterForm @getUserObj="getUserMessage"></RegisterForm>
@@ -36,16 +43,40 @@ export default {
   components: {
     RegisterNav: RegisterNav,
     Step1: Step1,
-    Step2:Step2
+    Step2: Step2,
   },
   data() {
     return {
+      // 步骤条当前所在的步骤索引
       active: 1,
+      // 注册接口所需对象
+      registerObj: {
+        username: "",
+        password: "",
+        phone: "",
+      },
     };
   },
   methods: {
-    gotoSecond() {
-      this.active = 1;
+    // 点击跳转到上一步或者下一步
+    gotoSteps(content) {
+      // 如果传过来的参数类型为数字，那么直接赋值
+      if (typeof content === "number") {
+        this.active = content;
+        // 如果传过来的参数类型为对象，那么取其中的index属性赋值
+      } else if (typeof content === "object") {
+        this.active = content.index;
+        // 只有step2中传过来是对象，因此顺便在此处赋值注册对象的phone属性
+        this.registerObj.phone = content.phoneNumber;
+      }
+    },
+    registeNow(steps2Obj) {
+      // 接收子组件传过来的参数对象steps2Obj，并赋值注册对象的username属性和password属性
+      this.registerObj.username = steps2Obj.username;
+      this.registerObj.password = steps2Obj.password;
+      // TODO：在这里调用注册接口
+      // 调用方法跳转到步骤三————注册成功
+      // this.gotoSteps(steps2Obj.index);
     },
   },
 };

@@ -36,7 +36,7 @@
     />
     <!-- 下一步 -->
     <div class="next">
-      <button class="cursor" @click="next">下一步</button>
+      <button class="cursor" @click="gotoSteps">下一步</button>
     </div>
   </div>
 </template>
@@ -66,6 +66,11 @@ export default {
       Img4,
       // 记录人机验证是否通过，只有人机验证通过才能点击下一步生效
       isPuzzleLegal: false,
+      // 下一步的索引和用户手机号信息
+      step1Obj:{
+        index: 1,
+        phoneNumber: ""
+      }
     };
   },
   methods: {
@@ -99,6 +104,8 @@ export default {
     onSuccess() {
       // 用isPuzzleLegal标识人机验证通过
       this.isPuzzleLegal = true;
+      // 给传到父组件的phoneNumber赋值
+      this.step1Obj.phoneNumber = this.phoneNumber;
       // 关闭弹窗
       this.isShow = false;
     },
@@ -111,10 +118,10 @@ export default {
       //   this.isShow = false;
     },
     // TODO3: 点击下一步
-    next() {
+    gotoSteps() {
       if (this.isPuzzleLegal) {
         // 只有人机验证通过后才能点击下一步
-        this.$emit("gotoSecond");
+        this.$emit("gotoSteps",this.step1Obj);
       }
     },
   },
