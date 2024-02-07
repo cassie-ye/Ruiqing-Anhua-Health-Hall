@@ -7,6 +7,7 @@ export const useLogin = {
       // 登录成功
       if (res.code === "H0000") {
         localStorage.setItem('token', JSON.stringify(res.data.token))
+        localStorage.setItem('userInfo', JSON.stringify(res.data.userInfo))
         this.$message({
           type: "success",
           message: "登录成功",
