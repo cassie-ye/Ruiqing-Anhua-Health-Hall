@@ -18,20 +18,7 @@
       @registeNow="registeNow"
       v-if="this.active === 1 ? true : false"
     ></Step2>
-    <div v-if="this.active === 2 ? true : false">steps3</div>
-    <!-- <template v-if="this.active === 1 ? true : false">
-        <div class="formR">
-          <RegisterForm @getUserObj="getUserMessage"></RegisterForm>
-        </div>
-      </template>
-      <template v-if="this.active === 2 ? true : false">
-        <div class="finish">
-          <i class="el-icon-time"></i>
-          <p class="name">恭喜您，{{ registerObj.username }}</p>
-          <p class="grey">您已成功注册为瑞清安华用户，祝您购物愉快~</p>
-          <button @click="next3" class="cursor">去登录</button>
-        </div>
-      </template> -->
+    <Step3 :successfullObj="successfullObj"></Step3>
   </div>
 </template>
 
@@ -39,12 +26,14 @@
 import RegisterNav from "@/views/Register/components/RegisterNav.vue";
 import Step1 from "@/views/Register/components/Step1.vue";
 import Step2 from "@/views/Register/components/Step2.vue";
+import Step3 from "@/views/Register/components/Step3.vue";
 import { registerAPI } from "@/apis/user";
 export default {
   components: {
     RegisterNav: RegisterNav,
     Step1: Step1,
     Step2: Step2,
+    Step3:Step3
   },
   data() {
     return {

@@ -47,7 +47,10 @@
       <div class="demo-basic--circle">
         <div class="block">
           <!-- 头像的url -->
-          <el-avatar :size="60" :src="userInfo.headImg"></el-avatar>
+          <el-avatar
+            :size="60"
+            :src="userInfo.headImg || loginCircleUrl"
+          ></el-avatar>
         </div>
       </div>
     </div>
@@ -107,7 +110,10 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
+      // 默认头像
       circleUrl: require("@/assets/avator.webp"),
+      // 登录后默认头像
+      loginCircleUrl: require("@/assets/avator2.jpg"),
     };
   },
   methods: {},

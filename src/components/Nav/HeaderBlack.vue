@@ -9,7 +9,7 @@
             size="small"
             :src="userInfo.headImg || circleUrl"
           ></el-avatar>
-          <p>用户：Cassie</p>
+          <p>用户：{{userInfo.username}}</p>
         </div>
         <!-- v-else未登录 -->
         <div v-else class="login_register">
@@ -64,7 +64,10 @@ export default {
   name: "HeaderBlack",
   props: {},
   data() {
-    return {};
+    return {
+      // 默认头像
+      circleUrl: require("@/assets/avator2.jpg"),
+    };
   },
   methods: {
     // TODO 点击跳转到对应页面

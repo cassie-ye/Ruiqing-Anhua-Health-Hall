@@ -44,7 +44,7 @@ export default {
     },
     color: {
       default(){
-        return '#076CE0'
+        return {}
       },
       // type: String,
       required: false
