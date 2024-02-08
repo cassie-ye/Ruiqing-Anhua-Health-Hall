@@ -8,17 +8,17 @@
         alt=""
       />
     </div>
-    <!-- <Details></Details> -->
+    <Details></Details>
     <!-- <UserComment></UserComment> -->
   </div>
 </template>
 
 <script>
-// import Details from "@/views/GoodsDetail/components/Details.vue";
+import Details from "@/views/GoodsDetail/components/Details.vue";
 // import UserComment from "@/views/GoodsDetail/components/UserComment.vue";
 export default {
   components: {
-    // Details: Details
+    Details: Details
     // UserComment:UserComment
   },
 };

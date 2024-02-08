@@ -23,11 +23,11 @@
           价格：
           <!-- 现价 -->
           <span class="newPrice"
-            >￥{{ goods_content.disPrice | formatPrice }}</span
+            >￥{{ goods_content.disPrice?.toFixed(2) }}</span
           >
           <!-- 原价 -->
           <span class="oldPrice"
-            >￥{{ goods_content.orPrice | formatPrice }}</span
+            >￥{{ goods_content.orPrice?.toFixed(2) }}</span
           >
         </div>
         <!-- 优惠 -->
@@ -78,7 +78,7 @@
         <div class="buttonGroup">
           <!-- 加入购物车按钮 -->
           <el-button
-            @click="addCart"
+            @click="addCartOrLogin"
             style="
               width: 160px;
               height: 40px;
@@ -129,38 +129,65 @@
 <script>
 // 导入请求方法：根据商品Id得到商品详情
 import { getGoodsByIdAPI } from "@/apis/goods";
+import { mapState } from "vuex";
+import { addCartAPI } from "@/apis/cart";
 export default {
-  // 在Vue中，默认情况下，使用插值表达式{{}}来显示数据时，
-  // 会将数字转换为字符串并进行简单的格式化。
-  // 这可能会导致小数点后的位数丢失。
-  // 要保留小数点后两位，可以使用Vue的过滤器来处理。
-  // 在Vue实例中定义一个名为 formatPrice 的过滤器，用于格式化价格：
-  filters: {
-    formatPrice(value) {
-      return value.toFixed(2);
-    },
-  },
   data() {
     return {
       // 商品详情的对象
       goods_content: {},
       //  计数器的v-model
       num: 1,
+      // 抱歉，请先登录 弹框的显示标识
+      dialogVisibleToLogin: false,
     };
   },
   methods: {
+    // 调用接口 通过商品Id获取商品详情
     async getGoodsById(id) {
       const { data: res } = await getGoodsByIdAPI(id);
+      // 给当前商品对象信息赋值
       this.goods_content = res[0];
     },
     // 点击计数器加减按钮时，会打印数量
     handleChange(e) {
       console.log(e);
     },
-    // 加入购物车
-    addCart(){
-        
-    }
+    // 调用接口addCartAPI加入购物车
+    async addCart(){
+      const { data: res } = await addCartAPI({
+        goodsId: this.goods_content.goodsId,
+        userId: this.userInfo.id,
+      });
+      // console.log(res);
+    },
+    // 点击加入购物车按钮
+    addCartOrLogin() {
+      // TODO：如果已经登录，加入商品到购物车
+      if (this.token) {
+        this.addCart();
+      } else {
+        // TODO：如果没有登陆，引导用户去登录的弹窗
+        // 开启 抱歉，请先登录的弹框
+        this.dialogVisibleToLogin = true;
+      }
+    },
+    // 点击弹框的叉叉或者弹框外部区域，弹框关闭
+    handleClose() {
+      this.dialogVisibleToLogin = false;
+    },
+    // 点击抱歉，请先登录  的确定按钮 路由跳转到登录页面
+    gotoLogin() {
+      this.$router.push("/login");
+    },
+  },
+  computed: {
+    /* 
+      获取vuex中存储的user信息和token信息
+      token用来判断用户是否登录以及v-if和v-else切换导航栏内容
+      userInfo用来获取用户信息，在token存在情况下的导航栏展示用户名和头像
+    */
+    ...mapState("user", ["userInfo", "token"]),
   },
   created() {
     // 获取路由上的goods_id参数并且发起请求
