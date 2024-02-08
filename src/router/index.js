@@ -95,19 +95,20 @@ const router = new VueRouter({
     return { x: 0, y: 0 };
   },
 });
-// const authUrl = ["myCart", "myOrder", "myInfo"];
-// router.beforeEach((to, from, next) => {
-  // 判断是否需要登录
-  // if (to.matched.some((item) => authUrl.includes(item.path))) {
-  //   // 判断是否登录
-  //   if (!localStorage.getItem("token")) {
-  //     // 如果没有登录，跳转到登录页面
-  //     next({ path: "/login" });
-  //   } else {
-  //     // 如果已经登录，继续执行
-  //     next();
-  //   }
-  // }
-// });
+// 路由前置守卫
+const authUrl = ["/myCart", "/myOrder", "/myInfo"];
+// const authUrl = ['/myInfo', '/myOrder', '/cart', '/checkout', '/pay', '/yuePay']
+router.beforeEach((to, from, next) => {
+  const token = JSON.parse(localStorage.getItem('token'))
+  if (!authUrl.includes(to.path)) {
+    next()
+    return
+  }
+  if (token) {
+    next()
+  } else {
+    next('/login')
+  }
+})
 
 export default router;
