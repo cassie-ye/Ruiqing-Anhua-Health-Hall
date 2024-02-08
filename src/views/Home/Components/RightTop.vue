@@ -59,7 +59,7 @@
     <div class="else">
       <div class="else_top">
         <router-link to="/cart">
-          <span class="num">{{ cartList.length }}</span>
+          <span class="num">{{ cartList?.length||0 }}</span>
           <span>购物车</span>
         </router-link>
         <router-link to="/myOrder">

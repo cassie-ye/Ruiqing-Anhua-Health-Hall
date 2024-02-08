@@ -3,22 +3,27 @@
     <!-- 头部搜索导航栏 -->
     <HeaderSearch></HeaderSearch>
     <!-- v-if 当前购物车不为空时显示的空购物车页面 -->
-    <div v-if="cartList.length > 0" class="content">
+    <div v-if="cartList?.length > 0" class="content">
       <div class="wrapper">
         <!-- 购物车标题部分 -->
         <div class="header">
           <!-- 左边部分 -->
           <div class="header_left">
             <!-- 购物车商品总数量 每种商品的数量和 -->
-            <div class="cartAll">购物车（全部{{ 2 }}）</div>
+            <div class="cartAll">购物车（全部{{ totalGoodsInCart }}）</div>
           </div>
           <!-- 右边部分 -->
           <div class="header_right">
             <!-- 已经选中的商品的总价格 -->
             <div class="sellect_text">已选商品(不含运费)</div>
-            <div class="select_price">{{ 888 }}</div>
+            <div class="select_price">{{ selPrice }}</div>
             <!-- 结算按钮 没有商品被选中时 按钮禁用 -->
-            <el-button v-if="true" type="info" plain round disabled
+            <el-button
+              v-if="this.selCartList?.length === 0"
+              type="info"
+              plain
+              round
+              disabled
               >结算</el-button
             >
             <!-- 结算按钮 如果有1件及以上商品被选中 则显示按钮 处理结算逻辑 -->
@@ -62,7 +67,7 @@
             <CartItem
               :goods="item"
               @changeStatus="changeStatus"
-              @changeInputNumberValue="changeNumber"
+              @changeInputNumberValue="changeInputNumberValue"
             ></CartItem>
           </div>
         </div>
@@ -82,7 +87,9 @@
             </div>
             <!-- 删除选中商品 -->
             <div class="delete">
-              <a href="#" @click="deleteSelectGoods">删除{{ 2 }}</a>
+              <el-button type="danger" round @click="openDialogVisibleDelete"
+                >删除</el-button
+              >
             </div>
             <!-- 移入收藏夹 -->
             <div class="collect">
@@ -92,16 +99,16 @@
           <!-- 选中商品的件数 -->
           <div class="fix_right">
             <div class="select_num">
-              已选商品&nbsp;<span>{{ 2 }}</span
+              已选商品&nbsp;<span>{{ selCount }}</span
               >&nbsp;件
             </div>
             <!-- 合计价格 -->
             <div class="add">
-              合计（不含运费）：<span>{{ 2 }}</span>
+              合计（不含运费）：<span>{{ selPrice }}</span>
             </div>
             <!-- 结算按钮 没有商品被选中时 按钮禁用 -->
             <el-button
-              v-if="this.selCartList.length === 0"
+              v-if="this.selCartList?.length === 0"
               type="info"
               plain
               round
@@ -127,6 +134,21 @@
       </div>
     </div>
     <Bottom class="bottom"></Bottom>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisibleDelete"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <!-- 弹窗内容 -->
+      <span>确定删除商品吗</span>
+      <span slot="footer" class="dialog-footer">
+        <!-- 取消按钮 -->
+        <el-button @click="dialogVisibleDelete = false">取 消</el-button>
+        <!-- 确定按钮 -->
+        <el-button type="primary" @click="deleteSelectGoods">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -141,6 +163,13 @@ export default {
     return {
       // 全选按钮默认全部选中
       allChecked: true,
+      // 删除时跳出的弹窗
+      dialogVisibleDelete: false,
+      // 删除的对象
+      delObj: {
+        userId: 2,
+        cartId: 0,
+      },
     };
   },
   methods: {
@@ -148,8 +177,13 @@ export default {
       "setCartList",
       "changeSingleStatus",
       "syncChangeAllBoxesStatus",
+      "getCartListAction",
     ]),
-    ...mapActions("cart", ["getCartListAction"]),
+    ...mapActions("cart", [
+      "getCartListAction",
+      "addCartAction",
+      "deleteCartByIdAction",
+    ]),
     /* 
         调用vuex中的方法：改变小选框的状态 true/false
     */
@@ -167,22 +201,89 @@ export default {
       this.syncChangeAllBoxesStatus(this.allChecked);
     },
 
-    change() {},
-    changeNumber() {},
-    deleteSelectGoods() {},
-    selCartList() {},
+    /* 
+        接收子组件传过来的对象，发起添加商品到购物车的请求，使得数据库中该商品加入购物车的数量+1
+        减减操作暂时不写（后端有误）
+    */
+    changeInputNumberValue(obj) {
+      // console.log(obj);
+      if (obj.method === "add") {
+        const addObj = {
+          userId: obj.userId,
+          goodsId: obj.goodsId,
+        };
+        this.addCartAction(addObj);
+        // } else {
+        //   const delObj = {
+        //     userId: obj.userId,
+        //     cartId: obj.cartId,
+        //   };
+        //   this.deleteCartByIdAction(delObj);
+      }
+    },
+
+    /* 
+      删除选中的商品
+    */
+    deleteSelectGoods() {
+      // 遍历当前选中的商品列表，删除这个列表的每一件商品，关闭弹窗
+      // const cartIds = [];
+      this.selCartList.forEach((item) => {
+        this.delObj.cartId = item.id;
+        this.deleteCartByIdAction(this.delObj);
+        this.dialogVisibleDelete = false;
+      });
+    },
+
+    /* 
+      点击删除按钮，打开弹窗
+    */
+    openDialogVisibleDelete() {
+      this.dialogVisibleDelete = true;
+    },
+
+    /* 
+      点击弹框的叉叉或者弹框外部区域，弹框关闭
+    */
+    handleClose() {
+      this.dialogVisibleDelete = false;
+    },
+
+    /* 
+      购物车列表没有任何数据的时候，点击去购物，跳转到首页
+    */
+    goShopping() {
+      this.$router.push("/");
+    },
+
+    /* 
+      结算
+    */
+    settlement() {},
   },
   computed: {
+    // 获取vuex中用户信息
+    ...mapState("user", ["userInfo"]),
+    // 获取vuex中购物车列表数据
     ...mapState("cart", ["cartList"]),
-    ...mapGetters("cart", ["isAllBoxesChecked"]),
+    // 获取vuex中购物车的计算属性
+    ...mapGetters("cart", [
+      "isAllBoxesChecked",
+      "selCount",
+      "selCartList",
+      "selPrice",
+      "totalGoodsInCart",
+    ]),
   },
   created() {
     /* 
       每次进入页面的时候，都调用同步设置所有小选框的状态方法
       使得所有全选框、所有小选框 全部选中
+      每次进入页面都重新拉取一下购物车列表数据
     */
-    this.syncChangeAllBoxesStatus(true)
+    this.syncChangeAllBoxesStatus(true);
     this.allChecked = this.isAllBoxesChecked;
+    this.getCartListAction(this.userInfo.id);
   },
 };
 </script>

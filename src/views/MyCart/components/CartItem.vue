@@ -2,73 +2,110 @@
   <div class="wrapper">
     <!-- 是否选中？ -->
     <div class="choose">
-      <input @click="changeStatus" type="checkbox" class="check" :checked="goods.isChecked"/>
+      <input
+        @click="changeStatus"
+        type="checkbox"
+        class="check"
+        :checked="goods.isChecked"
+      />
     </div>
     <div class="goods">
       <!-- 左边部分 -->
       <div class="goods_left">
         <!-- 商品图片 -->
-        <img
-          :src="goods.img"
-          alt=""
-        />
+        <img :src="goods.img" alt="" />
       </div>
       <!-- 右边部分 -->
       <div class="goods_right">
         <!-- 商品名称 -->
-        <div class="name">{{goods.name}}</div>
+        <div class="name">{{ goods.name }}</div>
         <!-- 商品功效 -->
-        <div class="effect">{{goods.efficacy}}</div>
+        <div class="effect">{{ goods.efficacy }}</div>
         <!-- 不支持7天无理由退货 -->
         <p>不支持7天无理由退货</p>
       </div>
     </div>
     <!-- 商品单价 -->
-    <div class="single_price">￥{{goods.disPrice}}</div>
+    <div class="single_price">￥{{ goods.disPrice }}</div>
     <!-- 商品加入购物车的数量 -->
     <div class="num">
-      <el-input-number @change="handleChange" size="small" v-model="num" step-strictly :min="1"></el-input-number>
+      <el-input-number
+        @change="handleChange"
+        size="small"
+        v-model="num"
+        step-strictly
+        :min="1"
+      ></el-input-number>
     </div>
     <!-- 单个商品总金额 -->
-    <div class="price">￥{{single_totalPrice}}</div>
+    <div class="price">￥{{ single_totalPrice }}</div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   props: {
     goods: {
       // type: object,
-      default: {}
-    }
+      default: {},
+    },
   },
-  data () {
+  data() {
     return {
+      // 计数器的值
       num: 1,
-      isChecked:true
-    }
+      // 小选框的值
+      isChecked: true,
+      // 加入购物车的编号
+      cartId: 0,
+    };
   },
   methods: {
     /* 
         改变小选框的状态，向父组件传递当前商品的id，在父组件中调用vuex修改小选框状态
     */
-    changeStatus () {
-      this.$emit('changeStatus', this.goods.goodsId)
+    changeStatus() {
+      this.$emit("changeStatus", this.goods.goodsId);
     },
-    handleChange (value) {
-      console.log(value)
-      this.$emit('changeInputNumberValue', value, this.goods.id)
-    }
+
+    /* 
+        点击计数器的加/减触发该方法
+        暂时先做加
+        value：计数器的值
+    */
+    handleChange(value) {
+      if (value > this.goods.number) {
+        const addToCartObj = {
+          userId: this.userInfo.id,
+          goodsId: this.goods.goodsId,
+          method: "add",
+        };
+        this.$emit("changeInputNumberValue", addToCartObj);
+        // }else {
+        //   const deleteGoodsObj={
+        //     userId: this.userInfo.id,
+        //     cartId: this.cartId,
+        //     method:'delete'
+        //   }
+        //   this.$emit("changeInputNumberValue", deleteGoodsObj);
+      }
+    },
   },
   computed: {
-    single_totalPrice () {
-      return this.goods.disPrice * this.goods.number
-    }
+    ...mapState("user", ["userInfo"]),
+    // 单个商品总金额
+    single_totalPrice() {
+      return this.goods.disPrice * this.goods.number;
+    },
   },
-  mounted () {
-    this.num = this.goods.number
-  }
-}
+  created() {
+    // 将父组件传过来的商品对象的数量赋值给计数器数量（回显）
+    this.num = this.goods.number;
+    // 将父组件传过来的商品对象的**加入购物车的编号**赋值
+    this.cartId = this.goods.id;
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -51,7 +51,7 @@
         <!-- 购物车 点击跳转到购物车页 -->
         <div @click="goto('myCart')" class="cart">
           <i class="el-icon-shopping-cart-2"></i>
-          <p>购物车({{ cartList.length }})</p>
+          <p>购物车({{ cartList?.length||0 }})</p>
         </div>
       </div>
     </div>
