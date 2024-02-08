@@ -7,7 +7,7 @@ export default {
       /* 
         购物车列表
       */
-      cartList: [],
+      cartList: JSON.parse(localStorage.getItem("cartList") || "[]"),
     };
   },
   mutations: {
@@ -16,6 +16,7 @@ export default {
     */
     setCartList(state, newList) {
       state.cartList = newList;
+      localStorage.setItem("cartList", JSON.stringify(state.cartList));
     },
   },
   actions: {

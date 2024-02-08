@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import {  mapState } from "vuex";
 export default {
   data() {
     return {
@@ -128,7 +128,7 @@ export default {
   },
   created() {
     // 得到最新的购物车数据
-    this.getCartListAction(this.userInfo.id);
+    // this.getCartListAction(this.userInfo.id);
   },
 };
 </script>

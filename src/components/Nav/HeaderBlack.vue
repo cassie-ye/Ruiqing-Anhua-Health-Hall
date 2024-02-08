@@ -70,7 +70,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('cart',["getCartListAction"]),
+    ...mapActions("cart", ["getCartListAction"]),
     // TODO 点击跳转到对应页面
     goto(name) {
       this.$router.push(`/${name}`);
@@ -86,8 +86,6 @@ export default {
     ...mapState("cart", ["cartList"]),
   },
   created() {
-    // 得到最新的购物车数据
-    this.getCartListAction(this.userInfo.id)
   },
 };
 </script>

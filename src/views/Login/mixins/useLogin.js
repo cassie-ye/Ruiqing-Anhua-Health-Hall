@@ -1,11 +1,12 @@
 // 引入登录API
 import { loginAPI } from "@/apis/user";
 // 引入vuex的mapMutations
-import { mapMutations } from "vuex";
+import { mapMutations,mapActions } from "vuex";
 export const useLogin = {
   methods: {
     // 引入user模块的setUserInfo和setToken
     ...mapMutations("user", ["setUserInfo", "setToken"]),
+    ...mapActions("cart", ["getCartListAction"]),
     async login(loginObj) {
       // 调用登录接口
       const res = await loginAPI(loginObj);
@@ -17,6 +18,7 @@ export const useLogin = {
         // 将token和userInfo保存到vuex中
         this.setToken(res.data.token)
         this.setUserInfo(res.data.userInfo)
+        this.getCartListAction(res.data.userInfo.id)
         // 弹框提示用户登录成功
         this.$message({
           type: "success",
