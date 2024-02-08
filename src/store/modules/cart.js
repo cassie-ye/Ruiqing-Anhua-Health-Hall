@@ -22,7 +22,7 @@ export default {
     /* 
       提供一个方法：改变小选框的状态 true/false
     */
-    changeSingleBoxStatus(state, goodsId) {
+    changeSingleStatus(state, goodsId) {
       // 从购物车列表中选出当前要修改小选框状态的这个商品
       const selectedGoods = state.cartList.find(
         (item) => item.goodsId === goodsId

@@ -1,25 +1,35 @@
 <template>
   <div class="wrapper">
+    <!-- 是否选中？ -->
     <div class="choose">
-      <input @click="changeCheck" type="checkbox" class="check" :checked="goods.isChecked"/>
+      <input @click="changeStatus" type="checkbox" class="check" :checked="goods.isChecked"/>
     </div>
     <div class="goods">
+      <!-- 左边部分 -->
       <div class="goods_left">
+        <!-- 商品图片 -->
         <img
           :src="goods.img"
           alt=""
         />
       </div>
+      <!-- 右边部分 -->
       <div class="goods_right">
+        <!-- 商品名称 -->
         <div class="name">{{goods.name}}</div>
+        <!-- 商品功效 -->
         <div class="effect">{{goods.efficacy}}</div>
+        <!-- 不支持7天无理由退货 -->
         <p>不支持7天无理由退货</p>
       </div>
     </div>
+    <!-- 商品单价 -->
     <div class="single_price">￥{{goods.disPrice}}</div>
+    <!-- 商品加入购物车的数量 -->
     <div class="num">
       <el-input-number @change="handleChange" size="small" v-model="num" step-strictly :min="1"></el-input-number>
     </div>
+    <!-- 单个商品总金额 -->
     <div class="price">￥{{single_totalPrice}}</div>
   </div>
 </template>
@@ -34,14 +44,16 @@ export default {
   },
   data () {
     return {
-      num: 1
+      num: 1,
+      isChecked:true
     }
   },
   methods: {
-    changeCheck () {
-      // this.goods.isChecked = !this.goods.isChecked
-      this.$emit('changeCheck', this.goods.id)
-      // console.log(this.goods.isChecked)
+    /* 
+        改变小选框的状态，向父组件传递当前商品的id，在父组件中调用vuex修改小选框状态
+    */
+    changeStatus () {
+      this.$emit('changeStatus', this.goods.goodsId)
     },
     handleChange (value) {
       console.log(value)

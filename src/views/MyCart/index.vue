@@ -61,7 +61,7 @@
           <div v-for="(item, index) in cartList" :key="index">
             <CartItem
               :goods="item"
-              @changeCheck="change"
+              @changeStatus="changeStatus"
               @changeInputNumberValue="changeNumber"
             ></CartItem>
           </div>
@@ -131,7 +131,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
 import CartItem from "./components/CartItem.vue";
 export default {
   components: {
@@ -139,11 +139,34 @@ export default {
   },
   data() {
     return {
-      allChecked: false,
+      // 全选按钮默认全部选中
+      allChecked: true,
     };
   },
   methods: {
-    changeAllChecked() {},
+    ...mapMutations("cart", [
+      "setCartList",
+      "changeSingleStatus",
+      "syncChangeAllBoxesStatus",
+    ]),
+    ...mapActions("cart", ["getCartListAction"]),
+    /* 
+        调用vuex中的方法：改变小选框的状态 true/false
+    */
+    changeStatus(goodsId) {
+      this.changeSingleStatus(goodsId);
+      this.allChecked = this.isAllBoxesChecked;
+    },
+
+    /* 
+        点击全选按钮，修改全选框的值，并更新到vuex中
+        调用vuex中的方法：根据全选框状态，同步修改所有小选框的值
+    */
+    changeAllChecked() {
+      this.allChecked = !this.allChecked;
+      this.syncChangeAllBoxesStatus(this.allChecked);
+    },
+
     change() {},
     changeNumber() {},
     deleteSelectGoods() {},
@@ -151,6 +174,15 @@ export default {
   },
   computed: {
     ...mapState("cart", ["cartList"]),
+    ...mapGetters("cart", ["isAllBoxesChecked"]),
+  },
+  created() {
+    /* 
+      每次进入页面的时候，都调用同步设置所有小选框的状态方法
+      使得所有全选框、所有小选框 全部选中
+    */
+    this.syncChangeAllBoxesStatus(true)
+    this.allChecked = this.isAllBoxesChecked;
   },
 };
 </script>
