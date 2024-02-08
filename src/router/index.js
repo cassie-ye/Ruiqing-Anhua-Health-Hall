@@ -99,16 +99,16 @@ const router = new VueRouter({
 const authUrl = ["/myCart", "/myOrder", "/myInfo"];
 // const authUrl = ['/myInfo', '/myOrder', '/cart', '/checkout', '/pay', '/yuePay']
 router.beforeEach((to, from, next) => {
-  const token = JSON.parse(localStorage.getItem('token'))
+  const token = JSON.parse(localStorage.getItem("token"));
   if (!authUrl.includes(to.path)) {
-    next()
-    return
+    next();
+    return;
   }
   if (token) {
-    next()
+    next();
   } else {
-    next('/login')
+    next("/login");
   }
-})
+});
 
 export default router;
