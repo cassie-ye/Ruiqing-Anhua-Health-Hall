@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "HeaderBlack",
   props: {},
@@ -70,6 +70,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions('cart',["getCartListAction"]),
     // TODO 点击跳转到对应页面
     goto(name) {
       this.$router.push(`/${name}`);
@@ -84,7 +85,10 @@ export default {
     ...mapState("user", ["userInfo", "token"]),
     ...mapState("cart", ["cartList"]),
   },
-  created() {},
+  created() {
+    // 得到最新的购物车数据
+    this.getCartListAction(this.userInfo.id)
+  },
 };
 </script>
 

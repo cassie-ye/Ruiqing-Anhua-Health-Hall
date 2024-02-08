@@ -59,7 +59,7 @@
     <div class="else">
       <div class="else_top">
         <router-link to="/cart">
-          <span class="num">{{ 5 }}</span>
+          <span class="num">{{ cartList.length }}</span>
           <span>购物车</span>
         </router-link>
         <router-link to="/myOrder">
@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -124,6 +124,11 @@ export default {
       userInfo用来获取用户信息，在token存在情况下的导航栏展示用户名和头像
     */
     ...mapState("user", ["userInfo", "token"]),
+    ...mapState("cart", ["cartList"]),
+  },
+  created() {
+    // 得到最新的购物车数据
+    this.getCartListAction(this.userInfo.id);
   },
 };
 </script>
