@@ -12,7 +12,7 @@ export default {
   },
   mutations: {
     /* 
-      提供一个设置cartList的mutation
+      提供一个方法：设置购物车列表的值
     */
     setCartList(state, newList) {
       state.cartList = newList;
@@ -20,7 +20,7 @@ export default {
     },
 
     /* 
-      提供一个方法改变小选框的状态 true/false
+      提供一个方法：改变小选框的状态 true/false
     */
     changeSingleBoxStatus(state, goodsId) {
       // 从购物车列表中选出当前要修改小选框状态的这个商品
@@ -32,7 +32,7 @@ export default {
     },
 
     /* 
-      提供一个方法同步设置所有小选框的状态 treu/false
+      提供一个方法：同步设置所有小选框的状态 treu/false
     */
     syncChangeAllBoxesStatus(state, flag) {
       // 遍历购物车列表 修改小选框的值
@@ -43,7 +43,7 @@ export default {
   },
   actions: {
     /* 
-      加入购物车
+      调用接口：加入购物车
     */
     async addCartAction(context, obj) {
       const res = await addCartAPI(obj);
@@ -59,7 +59,7 @@ export default {
     },
 
     /* 
-      获取购物车列表
+      调用接口：获取购物车列表
     */
     async getCartListAction(context, userId) {
       const res = await getCartListAPI(userId);
@@ -73,5 +73,12 @@ export default {
       context.commit("setCartList", res.data);
     },
   },
-  getters: {},
+  getters: {
+    /* 
+      提供一个计算属性：判断当前是否是全选状态
+    */
+    isAllBoxesChecked(state) {
+      return state.cartList.every((item) => item.isChecked);
+    },
+  },
 };
