@@ -129,8 +129,7 @@
 <script>
 // 导入请求方法：根据商品Id得到商品详情
 import { getGoodsByIdAPI } from "@/apis/goods";
-import { mapState } from "vuex";
-import { addCartAPI } from "@/apis/cart";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -140,9 +139,15 @@ export default {
       num: 1,
       // 抱歉，请先登录 弹框的显示标识
       dialogVisibleToLogin: false,
+      // 要加入购物车的对象
+      addToCartObj: {
+        goodsId: "",
+        userId: "",
+      },
     };
   },
   methods: {
+    ...mapActions("cart", ["addCartAction"]),
     // 调用接口 通过商品Id获取商品详情
     async getGoodsById(id) {
       const { data: res } = await getGoodsByIdAPI(id);
@@ -151,21 +156,14 @@ export default {
     },
     // 点击计数器加减按钮时，会打印数量
     handleChange(e) {
-      console.log(e);
-    },
-    // 调用接口addCartAPI加入购物车
-    async addCart(){
-      const { data: res } = await addCartAPI({
-        goodsId: this.goods_content.goodsId,
-        userId: this.userInfo.id,
-      });
-      // console.log(res);
+      // console.log(e);
     },
     // 点击加入购物车按钮
     addCartOrLogin() {
       // TODO：如果已经登录，加入商品到购物车
       if (this.token) {
-        this.addCart();
+        // 调用vuex中添加商品到购物车的方法
+        this.addCartAction(this.addToCartObj);
       } else {
         // TODO：如果没有登陆，引导用户去登录的弹窗
         // 开启 抱歉，请先登录的弹框
@@ -192,6 +190,9 @@ export default {
   created() {
     // 获取路由上的goods_id参数并且发起请求
     this.getGoodsById(this.$route.query.goods_id);
+    // 设置加入购物车对象的属性的值
+    this.addToCartObj.goodsId = this.$route.query.goods_id;
+    this.addToCartObj.userId = this.userInfo.id;
   },
 };
 </script>

@@ -9,7 +9,7 @@
             size="small"
             :src="userInfo.headImg || circleUrl"
           ></el-avatar>
-          <p>用户：{{userInfo.username}}</p>
+          <p>用户：{{ userInfo.username }}</p>
         </div>
         <!-- v-else未登录 -->
         <div v-else class="login_register">
@@ -51,7 +51,7 @@
         <!-- 购物车 点击跳转到购物车页 -->
         <div @click="goto('myCart')" class="cart">
           <i class="el-icon-shopping-cart-2"></i>
-          <p>购物车(0)</p>
+          <p>购物车({{ cartList.length }})</p>
         </div>
       </div>
     </div>
@@ -82,10 +82,9 @@ export default {
       userInfo用来获取用户信息，在token存在情况下的导航栏展示用户名和头像
     */
     ...mapState("user", ["userInfo", "token"]),
+    ...mapState("cart", ["cartList"]),
   },
-  created() {
-    // console.log(this.token);
-  },
+  created() {},
 };
 </script>
 

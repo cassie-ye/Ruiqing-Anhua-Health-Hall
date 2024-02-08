@@ -9,17 +9,17 @@
       />
     </div>
     <Details></Details>
-    <!-- <UserComment></UserComment> -->
+    <UserComment></UserComment>
   </div>
 </template>
 
 <script>
 import Details from "@/views/GoodsDetail/components/Details.vue";
-// import UserComment from "@/views/GoodsDetail/components/UserComment.vue";
+import UserComment from "@/views/GoodsDetail/components/UserComment.vue";
 export default {
   components: {
-    Details: Details
-    // UserComment:UserComment
+    Details: Details,
+    UserComment:UserComment
   },
 };
 </script>

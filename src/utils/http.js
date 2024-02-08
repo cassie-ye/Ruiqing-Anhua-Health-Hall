@@ -1,7 +1,8 @@
 // axios基础的封装
 import axios from "axios";
 import { Message } from "element-ui";
-// 由于useRouter只能在组件内使用，因此如果想在独立的js文件或ts文件不能使用useRouter 获取
+import router from "@/router/index";
+import store from "@/store"
 const httpInstance = axios.create({
   baseURL: "http://127.0.0.1:8801/health",
   timeout: 5000,
@@ -34,10 +35,10 @@ httpInstance.interceptors.response.use(
     // 403 token 失效处理
     // 1. 清除本地用户数据
     // 2. 跳转到登录页
-    // if (e.response.status === 401) {
-    //   userStore.clearUserInfo();
-    //   router.push("/login");
-    // }
+    if (e.response.data.code === "H403") {
+      localStorage.clear()
+      router.push("/login");
+    }
     return Promise.reject(e);
   }
 );
