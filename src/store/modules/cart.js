@@ -30,6 +30,16 @@ export default {
       // isChecked属性取反
       selectedGoods.isChecked = !selectedGoods.isChecked;
     },
+
+    /* 
+      提供一个方法同步设置所有小选框的状态 treu/false
+    */
+    syncChangeAllBoxesStatus(state, flag) {
+      // 遍历购物车列表 修改小选框的值
+      state.cartList.forEach((item) => {
+        item.isChecked = flag;
+      });
+    },
   },
   actions: {
     /* 
