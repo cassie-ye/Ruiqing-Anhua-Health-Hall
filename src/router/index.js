@@ -33,10 +33,11 @@ import Register from "@/views/Register";
 import GoodsDetail from "@/views/GoodsDetail";
 
 /* 
-  检查订单信息 选择支付方式
+  检查订单信息 选择支付方式 余额支付平台
 */
 import CheckOrderInfo from "@/views/CheckOrderInfo";
-import ChoosePayMethod from "@/views/ChoosePayMethod"
+import ChoosePayMethod from "@/views/ChoosePayMethod";
+import BalancePayment from "@/views/BalancePayment";
 
 Vue.use(VueRouter);
 
@@ -99,6 +100,10 @@ const routes = [
   {
     path: "/choosePayMethod",
     component: ChoosePayMethod,
+  },
+  {
+    path: "/balancePayment",
+    component: BalancePayment,
   },
 ];
 
