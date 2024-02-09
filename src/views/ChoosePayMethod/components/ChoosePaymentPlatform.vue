@@ -56,6 +56,7 @@ export default {
 
 <style lang="less" scoped>
 .pay {
+  margin-bottom: 20px;
   margin-top: 20px;
   width: 100%;
   height: 400px;

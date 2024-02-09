@@ -10,6 +10,8 @@
     <ChoosePaymentPlatform
       @gotoBalancePayment="gotoBalancePayment"
     ></ChoosePaymentPlatform>
+    <!-- 底部 -->
+    <Bottom></Bottom>
   </div>
 </template>
 
