@@ -33,9 +33,10 @@ import Register from "@/views/Register";
 import GoodsDetail from "@/views/GoodsDetail";
 
 /* 
-  检查订单信息
+  检查订单信息 选择支付方式
 */
 import CheckOrderInfo from "@/views/CheckOrderInfo";
+import ChoosePayMethod from "@/views/ChoosePayMethod"
 
 Vue.use(VueRouter);
 
@@ -94,7 +95,11 @@ const routes = [
   {
     path: "/checkOrderInfo",
     component: CheckOrderInfo,
-  }
+  },
+  {
+    path: "/choosePayMethod",
+    component: ChoosePayMethod,
+  },
 ];
 
 const router = new VueRouter({

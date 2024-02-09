@@ -18,7 +18,7 @@
       </div>
       <div class="button">
         <el-button
-          @click="goPay"
+          @click="gotoChoosePayMethod"
           type="success"
           style="margin-right: 100px"
           plain
@@ -34,6 +34,12 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters("cart", ["selCount", "selPrice"]),
+  },
+  methods: {
+    // 点击按钮提交事件给父组件
+    gotoChoosePayMethod() {
+      this.$emit("gotoChoosePayMethod");
+    },
   },
 };
 </script>

@@ -13,7 +13,9 @@
     <!-- 校验支付方式信息 -->
     <PayMethodInfo></PayMethodInfo>
     <!-- 校验金额明细信息 -->
-    <AmountDetailInfo></AmountDetailInfo>
+    <AmountDetailInfo
+      @gotoChoosePayMethod="gotoChoosePayMethod"
+    ></AmountDetailInfo>
     <!-- 底部 -->
     <Bottom></Bottom>
   </div>
@@ -25,13 +27,13 @@ import AddressInfo from "@/views/CheckOrderInfo/components/AddressInfo.vue";
 // 引入商品信息组件
 import GoodsInfo from "@/views/CheckOrderInfo/components/GoodsInfo.vue";
 // 引入配送时间信息组件
-import DeliveryTimeInfo from "@/views/CheckOrderInfo/components/DeliveryTimeInfo.vue"
+import DeliveryTimeInfo from "@/views/CheckOrderInfo/components/DeliveryTimeInfo.vue";
 // 引入支付方式信息组件
 import PayMethodInfo from "@/views/CheckOrderInfo/components/PayMethodInfo.vue";
 // 引入金额明细信息组件
-import AmountDetailInfo from "@/views/CheckOrderInfo/components/AmountDetailInfo.vue"
+import AmountDetailInfo from "@/views/CheckOrderInfo/components/AmountDetailInfo.vue";
 // 引入底部组件
-import Bottom from "@/components/Nav/Bottom.vue"
+import Bottom from "@/components/Nav/Bottom.vue";
 
 export default {
   components: {
@@ -40,7 +42,13 @@ export default {
     DeliveryTimeInfo,
     PayMethodInfo,
     AmountDetailInfo,
-    Bottom
+    Bottom,
+  },
+  methods: {
+    // 接收子组件传过来的方法，点击跳转到选择支付方式页面
+    gotoChoosePayMethod() {
+      this.$router.push("/choosePayMethod");
+    },
   },
 };
 </script>
