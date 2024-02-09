@@ -103,14 +103,14 @@ export default {
         提供一个计算属性：获取购物车列表中选中的商品
     */
     selCartList(state) {
-      return state.cartList.filter((item) => item.isChecked);
+      return state.cartList?.filter((item) => item.isChecked);
     },
 
     /* 
         提供一个计算属性：获取购物车列表中选中的商品的总数
     */
     selCount(state, getters) {
-      return getters.selCartList.reduce((sum, item) => sum + item.number, 0);
+      return getters.selCartList?.reduce((sum, item) => sum + item.number, 0);
     },
 
     /* 
@@ -118,7 +118,7 @@ export default {
     */
     selPrice(state, getters) {
       return getters.selCartList
-        .reduce((sum, item) => {
+        ?.reduce((sum, item) => {
           return sum + item.number * item.disPrice;
         }, 0)
         .toFixed(2);
@@ -128,7 +128,7 @@ export default {
         提供一个计算属性：获取购物车列表中全部的商品数量
     */
     totalGoodsInCart(state) {
-      return state.cartList.reduce((sum, item) => sum + item.number, 0);
+      return state.cartList?.reduce((sum, item) => sum + item.number, 0);
     },
   },
 };

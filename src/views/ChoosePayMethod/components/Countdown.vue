@@ -60,7 +60,7 @@ export default {
             message: "订单已超时，自动取消",
             type: "error",
           });
-          this.$router.push("/cart");
+          this.$router.push("/myCart");
         }, 1000);
       }
     },
