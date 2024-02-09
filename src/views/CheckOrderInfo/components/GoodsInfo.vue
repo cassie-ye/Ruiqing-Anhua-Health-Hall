@@ -39,7 +39,6 @@ export default {
 .wrapper {
   background-color: #fff;
   .goods_info {
-    margin-top: 40px;
     width: 100%;
     // height: 300px;
     background-color: #fff;
