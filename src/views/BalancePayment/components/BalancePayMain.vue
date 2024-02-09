@@ -145,8 +145,8 @@ export default {
             userId: this.userInfo.id,
           };
           this.deleteCartByIdAction(delObj);
-          this.$router.push("/myOrder");
         });
+        this.$router.push("/myOrder");
       }
     },
   },

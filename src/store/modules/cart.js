@@ -40,10 +40,6 @@ export default {
         item.isChecked = flag;
       });
     },
-
-    /* 
-      提供一个方法：用户可以修改计数器中的数值，并且同步更新到vuex和数据库
-    */
   },
   actions: {
     /* 

@@ -9,7 +9,7 @@
 <script>
 // import { deleteCartByIdAPI } from "@/apis/cart";
 // import {mapActions } from "vuex";
-import { addShopOrderAPI } from "@/apis/order";
+import { addShopOrderAPI, deleteOrderByIdAPI } from "@/apis/order";
 export default {
   // methods: {
   //   ...mapActions('cart',["deleteCartByIdAction"]),
@@ -25,8 +25,12 @@ export default {
       const res = await addShopOrderAPI(obj);
       console.log(res);
     },
+    async deleteOrderById(orderId) {
+      await deleteOrderByIdAPI(orderId);
+    },
   },
   created() {
+    // this.deleteOrderById(1281);
     // this.addShopOrder({
     //   userId: 2,
     //   goodsId: 11207,

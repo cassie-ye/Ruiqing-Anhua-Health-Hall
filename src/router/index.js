@@ -114,6 +114,7 @@ const router = new VueRouter({
     return { x: 0, y: 0 };
   },
 });
+
 // 路由前置守卫
 const authUrl = ["/myCart", "/myOrder", "/myInfo"];
 // const authUrl = ['/myInfo', '/myOrder', '/cart', '/checkout', '/pay', '/yuePay']

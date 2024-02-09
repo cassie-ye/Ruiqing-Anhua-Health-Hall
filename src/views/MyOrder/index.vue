@@ -31,7 +31,7 @@
                 <el-button size="mini">批量确认收货</el-button>
                 <i class="el-icon-delete"></i>
                 <el-button
-                  @click="deleteSelectGoods"
+                  @click="openDialogVisibleDelete"
                   type="danger"
                   size="mini"
                   plain
@@ -40,10 +40,10 @@
               </div>
               <div v-if="this.orderList.length !== 0" class="order-content">
                 <OrderItem
-                  @changeCheck="change"
+                  @changeOrderRadio="changeOrderRadio"
                   v-for="(item, index) in orderList"
                   :key="index"
-                  :goods="item"
+                  :order="item"
                 ></OrderItem>
               </div>
               <div v-else class="empty">
@@ -70,22 +70,122 @@
         </el-tabs>
       </div>
     </div>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisibleDelete"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <!-- 弹窗内容 -->
+      <span>确定删除订单吗</span>
+      <span slot="footer" class="dialog-footer">
+        <!-- 取消按钮 -->
+        <el-button @click="dialogVisibleDelete = false">取 消</el-button>
+        <!-- 确定按钮 -->
+        <el-button type="primary" @click="deleteSelectOrders">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
+import OrderItem from "@/views/MyOrder/components/OrderItem.vue";
+import order from "@/store/modules/order";
 export default {
+  components: {
+    OrderItem,
+  },
   data() {
     return {
       activeName: "first",
-      allChecked: "",
+      // 全选框的值 默认为true
+      allChecked: "true",
+      // 删除时跳出的弹窗
+      dialogVisibleDelete: false,
+      // 删除时要传入的对象
+      delObj: {
+        userId: 0,
+        orderId: 0,
+      },
     };
   },
   methods: {
-    changeAllChecked() {},
-    deleteSelectGoods() {},
-    orderList() {},
-    goShopping() {},
+    ...mapActions("order", [
+      "getOrderListAction",
+      "deleteOrderByIdAction",
+    ]),
+    ...mapMutations("order", [
+      "changeSingleStatus",
+      "syncChangeAllBoxesStatus",
+    ]),
+
+    /* 
+        调用vuex中的方法：改变小选框的状态 true/false
+        相应的也判断一下全选框的状态
+    */
+    changeOrderRadio(orderId) {
+      this.changeSingleStatus(orderId);
+      this.allChecked = this.isAllBoxesChecked;
+    },
+
+    /* 
+        点击全选按钮，修改全选框的值，并更新到vuex中
+        调用vuex中的方法：根据全选框状态，同步修改所有小选框的值
+    */
+    changeAllChecked() {
+      this.allChecked = !this.allChecked;
+      this.syncChangeAllBoxesStatus(this.allChecked);
+    },
+
+    /* 
+        删除选中商品
+    */
+    deleteSelectOrders() {
+      // 遍历当前选中的商品列表，删除这个列表的每一件商品，关闭弹窗
+      this.delObj.userId = this.userInfo.id;
+      this.selOrderList.forEach((item) => {
+        this.delObj.orderId = item.id;
+        this.deleteOrderByIdAction(this.delObj);
+      });
+      this.dialogVisibleDelete = false;
+    },
+
+    /* 
+      点击删除按钮，打开弹窗
+    */
+    openDialogVisibleDelete() {
+      this.dialogVisibleDelete = true;
+    },
+
+    /* 
+      点击弹框的叉叉或者弹框外部区域，弹框关闭
+    */
+    handleClose() {
+      this.dialogVisibleDelete = false;
+    },
+
+    /* 
+      订单列表没有任何数据的时候，点击去购物，跳转到首页
+    */
+    goShopping() {
+      this.$router.push("/");
+    },
+  },
+  computed: {
+    ...mapState("user", ["userInfo"]),
+    ...mapState("order", ["orderList"]),
+    ...mapGetters("order", ["isAllBoxesChecked", "selOrderList"]),
+  },
+  created() {
+    /* 
+      每次进入页面的时候，都调用同步设置所有小选框的状态方法
+      使得所有全选框、所有小选框 全部选中
+      每次进入页面都重新拉取一下订单列表数据
+    */
+    this.syncChangeAllBoxesStatus(true);
+    this.allChecked = this.isAllBoxesChecked;
+    this.getOrderListAction(this.userInfo.id);
   },
 };
 </script>

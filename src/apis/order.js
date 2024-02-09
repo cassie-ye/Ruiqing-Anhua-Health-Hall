@@ -15,8 +15,18 @@ export const addShopOrderAPI = (data) => {
     根据用户id获取订单列表
 */
 export const getOrderListByIdAPI = (userId) => {
-    return request({
-      url: `/auth/order/getOrderInfoByUserId?userId=${userId}`,
-      method: "GET",
-    });
+  return request({
+    url: `/auth/order/getOrderInfoByUserId?userId=${userId}`,
+    method: "GET",
+  });
+};
+
+/* 
+    根据订单id删除订单
+*/
+export const deleteOrderByIdAPI = (orderId) => {
+  return request({
+    url: `/auth/order/deleteOrderById?id=${orderId}`,
+    method: "DELETE",
+  });
 };
