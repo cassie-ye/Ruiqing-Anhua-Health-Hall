@@ -32,6 +32,11 @@ import Register from "@/views/Register";
 */
 import GoodsDetail from "@/views/GoodsDetail";
 
+/* 
+  检查订单信息
+*/
+import CheckOrderInfo from "@/views/CheckOrderInfo";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -86,6 +91,10 @@ const routes = [
     path: "/goodsdetail",
     component: GoodsDetail,
   },
+  {
+    path: "/checkOrderInfo",
+    component: CheckOrderInfo,
+  }
 ];
 
 const router = new VueRouter({

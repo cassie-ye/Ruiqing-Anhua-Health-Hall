@@ -2,7 +2,7 @@
 import axios from "axios";
 import { Message } from "element-ui";
 import router from "@/router/index";
-import store from "@/store"
+import store from "@/store";
 const httpInstance = axios.create({
   baseURL: "http://127.0.0.1:8801/health",
   timeout: 5000,
@@ -25,7 +25,7 @@ httpInstance.interceptors.response.use(
   (e) => {
     // const userStore = useUserStore();
     // 控制台 network 离线模式进行测试
-    console.log("dede", e);
+    // console.log("dede", e);
     Message({
       type: "warning",
       message: e.message,
@@ -36,7 +36,7 @@ httpInstance.interceptors.response.use(
     // 1. 清除本地用户数据
     // 2. 跳转到登录页
     if (e.response.data.code === "H403") {
-      localStorage.clear()
+      localStorage.clear();
       router.push("/login");
     }
     return Promise.reject(e);

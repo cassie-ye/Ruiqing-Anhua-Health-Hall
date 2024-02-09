@@ -259,7 +259,10 @@ export default {
     /* 
       结算
     */
-    settlement() {},
+    settlement() {
+      // 跳转到检查订单信息页面
+      this.$router.push("/checkOrderInfo");
+    },
   },
   computed: {
     // 获取vuex中用户信息
