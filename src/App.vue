@@ -10,6 +10,7 @@
 // import { deleteCartByIdAPI } from "@/apis/cart";
 // import {mapActions } from "vuex";
 import { addShopOrderAPI, deleteOrderByIdAPI } from "@/apis/order";
+import { mapActions } from "vuex";
 export default {
   // methods: {
   //   ...mapActions('cart',["deleteCartByIdAction"]),
@@ -21,6 +22,7 @@ export default {
   //   this.deleteCartByIdAction({cartId:234,userId:2});
   // },
   methods: {
+    ...mapActions("order", ["deleteOrderByIdAction"]),
     async addShopOrder(obj) {
       const res = await addShopOrderAPI(obj);
       console.log(res);
@@ -30,6 +32,10 @@ export default {
     },
   },
   created() {
+    // this.deleteOrderByIdAction({
+    //   orderId: 1272,
+    //   userId: 2,
+    // });
     // this.deleteOrderById(1281);
     // this.addShopOrder({
     //   userId: 2,

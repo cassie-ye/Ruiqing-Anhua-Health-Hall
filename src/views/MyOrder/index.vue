@@ -91,7 +91,7 @@
 <script>
 import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import OrderItem from "@/views/MyOrder/components/OrderItem.vue";
-import order from "@/store/modules/order";
+import { deleteOrderByIdAPI } from "@/apis/order";
 export default {
   components: {
     OrderItem,
@@ -111,10 +111,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("order", [
-      "getOrderListAction",
-      "deleteOrderByIdAction",
-    ]),
+    ...mapActions("order", ["getOrderListAction", "deleteOrderByIdAction"]),
     ...mapMutations("order", [
       "changeSingleStatus",
       "syncChangeAllBoxesStatus",
@@ -141,14 +138,29 @@ export default {
     /* 
         删除选中商品
     */
-    deleteSelectOrders() {
-      // 遍历当前选中的商品列表，删除这个列表的每一件商品，关闭弹窗
-      this.delObj.userId = this.userInfo.id;
-      this.selOrderList.forEach((item) => {
-        this.delObj.orderId = item.id;
-        this.deleteOrderByIdAction(this.delObj);
-      });
-      this.dialogVisibleDelete = false;
+    async deleteSelectOrders() {
+      // // 遍历当前选中的商品列表，删除这个列表的每一件商品，关闭弹窗
+      // // this.delObj.userId = this.userInfo.id;
+      // this.selOrderList.forEach((item) => {
+      //   console.log(item);
+      //   // this.delObj.orderId = item.id;
+      //   // this.deleteOrderByIdAction(this.delObj);
+      //   // console.log(this.delObj);
+      //   const obj = {
+      //     orderId: item.id,
+      //     userId: this.userInfo.id,
+      //   };
+      //   console.log(obj);
+      //   this.deleteOrderByIdAction(obj);
+      // });
+      // this.dialogVisibleDelete = false;
+      for (let index = 0; index < this.selOrderList.length; index++) {
+        const element = this.selOrderList[index];
+        console.log(element);
+        await deleteOrderByIdAPI(element.id);
+        this.getOrderListAction(this.userInfo.id);
+        this.dialogVisibleDelete = false;
+      }
     },
 
     /* 
@@ -186,6 +198,15 @@ export default {
     this.syncChangeAllBoxesStatus(true);
     this.allChecked = this.isAllBoxesChecked;
     this.getOrderListAction(this.userInfo.id);
+  },
+  watch: {
+    isAllBoxesChecked: {
+      handler(newValue, oldValue) {
+        console.log(newValue, oldValue);
+        this.allChecked = this.isAllBoxesChecked;
+      },
+      deep: true,
+    },
   },
 };
 </script>

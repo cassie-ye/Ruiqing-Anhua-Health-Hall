@@ -287,6 +287,7 @@ export default {
     this.syncChangeAllBoxesStatus(true);
     this.allChecked = this.isAllBoxesChecked;
     this.getCartListAction(this.userInfo.id);
+    this.delObj.userId = this.userInfo.id;
   },
 };
 </script>
