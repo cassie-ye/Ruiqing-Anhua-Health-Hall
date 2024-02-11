@@ -1,6 +1,10 @@
 <template>
   <div>
-    <!-- <HeaderBlack></HeaderBlack>
+    <!-- 左右边距固定
+        根据设备的宽度调整大小 媒体查询
+        1200px
+     -->
+    <HeaderBlack></HeaderBlack>
     <HeaderSearch></HeaderSearch>
     <div class="wrapper">
       <UserInfo></UserInfo>
@@ -12,7 +16,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 

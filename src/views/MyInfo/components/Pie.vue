@@ -12,39 +12,40 @@ export default {
       myChart: {},
       pieData: [
         {
-          value: 463,
+          value: 0,
           name: "女生保健",
         },
         {
-          value: 395,
+          value: 0,
           name: "男生保健",
         },
         {
-          value: 157,
+          value: 0,
           name: "儿童保健",
         },
         {
-          value: 149,
+          value: 0,
           name: "OTC药",
         },
         {
-          value: 147,
+          value: 0,
           name: "特价产品",
         },
       ],
       pieName: [],
-      myChartStyle: { float: "left", width: "100%", height: "400px" }, //图表样式
+      myChartStyle: { float: "left", width: "70%", height: "350px" }, //图表样式
     };
   },
-  mounted() {
+  async mounted() {
+    await this.getOrderListAction(this.userInfo.id);
+    // 调用方法
+    this.getNewPieData();
     this.initDate(); //数据初始化
     this.initEcharts();
-    // 调用方法
-    this.getNewPieData()
   },
   computed: {
     ...mapState("user", ["userInfo"]),
-    ...mapGetters("order", ["orderList"]),
+    ...mapState("order", ["orderList"]),
   },
   methods: {
     ...mapActions("order", ["getOrderListAction"]),
@@ -54,17 +55,14 @@ export default {
         如果
     */
     getNewPieData() {
-      // 拉取一下订单列表
-      this.getOrderListAction(this.userInfo.id);
       // 循环orderList
-      this.orderList.forEach((item) => {
+      this.orderList?.forEach((item) => {
         this.pieData.forEach((item2) => {
-          if(item.parentType===item2.name){
-            item2.value=item.number
+          if (item.parentType === item2.name) {
+            item2.value = item.number;
           }
         });
       });
-      console.log(this.pieData);
     },
     initDate() {
       for (let i = 0; i < this.pieData.length; i++) {
@@ -85,8 +83,8 @@ export default {
         },
         title: {
           // 设置饼图标题，位置设为顶部居中
-          text: "国内院士前五省份图示",
-          top: "0%",
+          text: "用户消费个人偏好统计",
+          top: "12%",
           left: "center",
         },
         series: [
@@ -96,12 +94,13 @@ export default {
               show: true,
               formatter: "{b} : {c} ({d}%)", // b代表名称，c代表对应值，d代表百分比
             },
-            radius: "30%", //饼图半径
+            radius: "35%", //饼图半径
             data: this.pieData,
+            left:"-25%"
           },
         ],
       };
-      console.log(this.seriesData);
+      // console.log(this.seriesData);
       const optionFree = {
         xAxis: {},
         yAxis: {},
@@ -123,3 +122,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+#mychart{
+  background-color: #fff;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+</style>

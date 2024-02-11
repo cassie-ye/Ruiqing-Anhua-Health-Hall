@@ -76,7 +76,7 @@ export default {
     */
     async deleteOrderByIdAction(context, obj) {
       await deleteOrderByIdAPI(obj.orderId);
-      context.dispatch("getOrderListAction", obj.userId);
+      // context.dispatch("getOrderListAction", obj.userId);
     },
   },
   getters: {

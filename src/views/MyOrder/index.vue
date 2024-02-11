@@ -38,7 +38,8 @@
                   >订单回收站</el-button
                 >
               </div>
-              <div v-if="this.orderList.length !== 0" class="order-content">
+              <!-- 如果orderList没有值,返回的是null,null.length就会报错 -->
+              <div v-if="this.orderList?.length" class="order-content">
                 <OrderItem
                   @changeOrderRadio="changeOrderRadio"
                   v-for="(item, index) in orderList"
@@ -91,7 +92,6 @@
 <script>
 import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import OrderItem from "@/views/MyOrder/components/OrderItem.vue";
-import { deleteOrderByIdAPI } from "@/apis/order";
 export default {
   components: {
     OrderItem,
@@ -139,8 +139,8 @@ export default {
         删除选中商品
     */
     async deleteSelectOrders() {
-      // // 遍历当前选中的商品列表，删除这个列表的每一件商品，关闭弹窗
-      // // this.delObj.userId = this.userInfo.id;
+      // 遍历当前选中的商品列表，删除这个列表的每一件商品，关闭弹窗
+      // this.delObj.userId = this.userInfo.id;
       // this.selOrderList.forEach((item) => {
       //   console.log(item);
       //   // this.delObj.orderId = item.id;
@@ -153,14 +153,22 @@ export default {
       //   console.log(obj);
       //   this.deleteOrderByIdAction(obj);
       // });
-      // this.dialogVisibleDelete = false;
-      for (let index = 0; index < this.selOrderList.length; index++) {
-        const element = this.selOrderList[index];
-        console.log(element);
-        await deleteOrderByIdAPI(element.id);
-        this.getOrderListAction(this.userInfo.id);
-        this.dialogVisibleDelete = false;
-      }
+      await Promise.all(this.selOrderList.map(item => {
+        const obj = {
+          orderId: item.id,
+          userId: this.userInfo.id,
+        };
+        return this.deleteOrderByIdAction(obj);
+      }))
+      this.getOrderListAction(this.userInfo.id)
+      this.dialogVisibleDelete = false;
+      // for (let index = 0; index < this.selOrderList.length; index++) {
+      //   const element = this.selOrderList[index];
+      //   console.log(element);
+      //   await deleteOrderByIdAPI(element.id);
+      //   this.getOrderListAction(this.userInfo.id);
+      //   this.dialogVisibleDelete = false;
+      // }
     },
 
     /* 
@@ -202,7 +210,7 @@ export default {
   watch: {
     isAllBoxesChecked: {
       handler(newValue, oldValue) {
-        console.log(newValue, oldValue);
+        // console.log(newValue, oldValue);
         this.allChecked = this.isAllBoxesChecked;
       },
       deep: true,
