@@ -35,7 +35,7 @@ export default {
 <style lang="less" scoped>
 .info_left {
   width: 25%;
-  height: 600px;
+  height: 400px;
   // background-color: pink;
   background-color: #fff;
   display: flex;
