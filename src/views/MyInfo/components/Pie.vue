@@ -127,5 +127,6 @@ export default {
   background-color: #fff;
   border-radius: 10px;
   margin-top: 15px;
+  width: 100%;
 }
 </style>
