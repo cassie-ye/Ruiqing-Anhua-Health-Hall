@@ -118,7 +118,7 @@ const router = new VueRouter({
 // 路由前置守卫
 const authUrl = ["/myCart", "/myOrder", "/myInfo"];
 // const authUrl = ['/myInfo', '/myOrder', '/cart', '/checkout', '/pay', '/yuePay']
-router.beforeEach((to, from, next) => {
+router.beforeEach((to,from, next) => {
   const token = JSON.parse(localStorage.getItem("token"));
   if (!authUrl.includes(to.path)) {
     next();

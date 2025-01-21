@@ -94,7 +94,6 @@ export default {
     isAllBoxesChecked(state) {
       return state.cartList?.every((item) => item.isChecked);
     },
-
     /* 
         提供一个计算属性：获取购物车列表中选中的商品
     */
@@ -108,7 +107,6 @@ export default {
     selCount(state, getters) {
       return getters.selCartList?.reduce((sum, item) => sum + item.number, 0);
     },
-
     /* 
         提供一个计算属性：获取购物车列表中选中的商品的总价格
     */

@@ -96,7 +96,7 @@ export default {
             },
             radius: "35%", //饼图半径
             data: this.pieData,
-            left:"-25%"
+            left: "-25%",
           },
         ],
       };
@@ -123,7 +123,7 @@ export default {
 };
 </script>
 <style scoped>
-#mychart{
+#mychart {
   background-color: #fff;
   border-radius: 10px;
   margin-top: 15px;

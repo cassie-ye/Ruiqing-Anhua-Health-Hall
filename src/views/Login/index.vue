@@ -119,7 +119,7 @@ export default {
     height: 58%;
     background-color: #fff;
     .el-menu-demo {
-      width: 145px;
+      width: 170px;
       height: 40px;
       background-color: #fff;
       margin-top: 20px;
